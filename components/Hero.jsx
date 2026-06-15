@@ -7,6 +7,14 @@ import Users from "lucide-react/dist/esm/icons/users";
 import ArrowUpRight from "lucide-react/dist/esm/icons/arrow-up-right";
 
 const Hero = () => {
+  const phone = "923214576734";
+
+const message =
+  "Hey🖐, I am looking to develop a high-performance website for my business. Let's connect to discuss our project requirements and timeline.";
+
+const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
+  message
+)}`;
   return (
     <section className="relative min-h-screen w-full flex items-center justify-center pt-24 pb-16 overflow-hidden bg-slate-950 text-white select-none dynamic-layer-lock">
       {/* High-Performance Fixed Light Fields - Dropped Opacity & Blur Radii for Faster GPU Composite */}
@@ -64,7 +72,7 @@ const Hero = () => {
                 />
               </a>
               <a
-                href="https://api.whatsapp.com/send?phone=923214576734&text=Hello%20Haroon%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20discuss%20a%20project."
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-7 py-3.5 bg-slate-900/90 hover:bg-slate-850 text-slate-200 border border-slate-800 hover:border-indigo-500/50 rounded-xl font-bold flex items-center justify-center active:scale-[0.98] transition-all duration-200 tracking-wide text-sm backdrop-blur-md shadow-md"

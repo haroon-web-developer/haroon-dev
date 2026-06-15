@@ -11,6 +11,14 @@ import Mail from "lucide-react/dist/esm/icons/mail";
 import Phone from "lucide-react/dist/esm/icons/phone";
 
 const Layout = ({ children }) => {
+  const phone = "923214576734";
+  const message =
+    "Hey🖐, I am looking to develop a high-performance website for my business. Let's connect to discuss our project requirements and timeline.";
+
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
+    message,
+  )}`;
+
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -27,7 +35,7 @@ const Layout = ({ children }) => {
   const navLinks = [
     { name: "About", href: "#about" },
     { name: "Services", href: "#services" },
-     { name: "Projects", href: "#projects" },
+    { name: "Projects", href: "#projects" },
     { name: "Skills", href: "#skills" },
   ];
 
@@ -63,7 +71,7 @@ const Layout = ({ children }) => {
             ))}
 
             <a
-              href="https://api.whatsapp.com/send?phone=923214576734&text=Hello%20Haroon%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20discuss%20a%20project."
+              href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
               className="px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-sm font-bold shadow-lg shadow-indigo-600/10 active:scale-[0.98] transition-all duration-200"
@@ -105,7 +113,7 @@ const Layout = ({ children }) => {
                 </a>
               ))}
               <a
-                href="https://api.whatsapp.com/send?phone=923214576734&text=Hello%20Haroon%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20discuss%20a%20project."
+                href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="w-full py-4 rounded-xl bg-indigo-600 text-white text-center font-bold text-sm tracking-wide shadow-md"
