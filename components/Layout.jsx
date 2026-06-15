@@ -58,7 +58,8 @@ const Layout = ({ children }) => {
       ))}
 
       <motion.a
-        href="#contact"
+        href="https://api.whatsapp.com/send?phone=923214576734&text=Hello%20Haroon%20I%20visited%20your%20portfolio%20and%20I%20would%20like%20to%20discuss%20a%20project."
+        target="_blank"
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         className="px-6 py-2.5 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-lg shadow-indigo-500/20"
