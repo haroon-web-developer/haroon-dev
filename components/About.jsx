@@ -4,7 +4,7 @@ import { User, Rocket, Award } from "lucide-react";
 import ProfilePhoto from "./img/profile-photo.jpeg";
 const About = () => {
   return (
-    <section id="about" className="py-16 md:py-24 relative overflow-hidden">
+    <section id="about" className="py-10 md:py-16 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 md:gap-16 items-center">
           <motion.div

@@ -1,52 +1,39 @@
-
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Haroon | Web Developer Portfolio</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-  <style>
-    body {
-      font-family: 'Inter', sans-serif;
-      scroll-behavior: smooth;
+  <title>HAROON.DEV | Premium Web Engineering Islamabad</title>
+  
+  <!-- Performance Prefetching Links - Cuts font loading latency -->
+  <link rel="preconnect" href="https://googleapis.com">
+  <link rel="preconnect" href="https://gstatic.com" crossorigin>
+  <link href="https://googleapis.com/css2?family=Inter:wght@300;400;500;600;700;900&display=swap" rel="stylesheet">
+  
+  <!-- Pre-compiled module script optimization flags (Fixed Import Mappings) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "react-dom/": "https://esm.sh",
+      "framer-motion": "https://esm.sh",
+      "@google/genai": "https://esm.sh",
+      "react/": "https://esm.sh",
+      "react": "https://esm.sh",
+      "lucide-react": "https://esm.sh"
     }
-    .gradient-text {
-      background: linear-gradient(135deg, #6366f1 0%, #a855f7 100%);
-       background-clip: text; 
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-    }
-    .custom-scrollbar::-webkit-scrollbar {
-      width: 6px;
-    }
-    .custom-scrollbar::-webkit-scrollbar-track {
-      background: #1f2937;
-    }
-    .custom-scrollbar::-webkit-scrollbar-thumb {
-      background: #4b5563;
-      border-radius: 10px;
-    }
-  </style>
-<script type="importmap">
-{
-  "imports": {
-    "react-dom/": "https://esm.sh/react-dom@^19.2.4/",
-    "framer-motion": "https://esm.sh/framer-motion@^12.34.0",
-    "@google/genai": "https://esm.sh/@google/genai@^1.41.0",
-    "react/": "https://esm.sh/react@^19.2.4/",
-    "react": "https://esm.sh/react@^19.2.4",
-    "lucide-react": "https://esm.sh/lucide-react@^0.563.0"
   }
-}
-</script>
-<link rel="stylesheet" href="/index.css">
+  </script>
+  
+  <!-- The Official Tailwind Play Engine (Restores all layout classes instantly) -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  
+  <!-- Your Custom Global Scrollbar and Typography Overrides -->
+  <link rel="stylesheet" href="/index.css">
 </head>
-<body class="bg-[#0f172a] text-slate-200 antialiased overflow-x-hidden">
+<body class="bg-slate-950 text-slate-200 antialiased overflow-x-hidden custom-scrollbar">
+  
   <div id="root"></div>
-<script type="module" src="/index.jsx"></script>
+  <script type="module" src="/index.jsx"></script>
+  
 </body>
 </html>
