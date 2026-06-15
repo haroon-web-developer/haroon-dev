@@ -36,7 +36,7 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
               </span>
-              <span>Premium Web Engineering &bull; Islamabad</span>
+              <span>Freelance Web Developer • Business-Focused Websites</span>
             </div>
 
             {/* High-Contrast Architectural Headline */}
@@ -49,14 +49,11 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
 
             {/* Elite Business Value Proposition */}
             <p className="text-base sm:text-lg text-slate-400 font-light leading-relaxed max-w-xl">
-              Most agency websites in Islamabad are slow and lose clients. At{" "}
-              <span className="text-slate-100 font-semibold">HAROON.DEV</span>,
-              we engineer ultra-fast, cloud-deployed digital systems tailored
-              specifically for{" "}
-              <span className="text-indigo-300 font-medium">
-                Real Estate Agencies, Corporate Brands, and Premium Services
-              </span>{" "}
-              to systematically scale revenue.
+              If you're a business owner, I help you turn your website into a
+              simple system that brings real inquiries — fast, mobile-friendly,
+              and easy to use.
+              <br /><br />
+              I mainly work with small businesses, service providers, and startups.
             </p>
 
             {/* High-Converting Executive Action Buttons */}
@@ -77,19 +74,19 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
                 rel="noopener noreferrer"
                 className="w-full sm:w-auto px-7 py-3.5 bg-slate-900/90 hover:bg-slate-850 text-slate-200 border border-slate-800 hover:border-indigo-500/50 rounded-xl font-bold flex items-center justify-center active:scale-[0.98] transition-all duration-200 tracking-wide text-sm backdrop-blur-md shadow-md"
               >
-                Request Free Performance Audit
+                Let’s talk about your project
               </a>
             </div>
 
-            {/* Quick Proof Trust Line */}
+             {/* TRUST LINE (UPDATED) */}
             <div className="flex items-center space-x-6 text-xs text-slate-500 font-medium tracking-wide pt-4 border-t border-slate-900 w-full max-w-md">
               <div className="flex items-center">
-                <Users size={14} className="text-indigo-400 mr-1.5" /> 100%
-                Client Satisfaction
+                <Users size={14} className="text-indigo-400 mr-1.5" />
+                Built for real business results
               </div>
               <div className="flex items-center">
-                <Zap size={14} className="text-amber-400 mr-1.5" /> &lt; 1.0s
-                Server Response
+                <Zap size={14} className="text-amber-400 mr-1.5" />
+                Fast & mobile optimized
               </div>
             </div>
           </div>
@@ -119,10 +116,10 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
                     </div>
                     <div>
                       <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                        Conversion Velocity
+                        Business Impact
                       </div>
                       <div className="text-base font-bold text-white mt-0.5">
-                        +248% Lead Growth
+                       More inquiries from websites
                       </div>
                     </div>
                   </div>
@@ -136,15 +133,15 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
                     </div>
                     <div>
                       <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                        Mobile Performance Core
+                        Performance
                       </div>
                       <div className="text-base font-bold text-emerald-400 mt-0.5">
-                        100/100 Perfect Speed
+                        Fast loading on all devices
                       </div>
                     </div>
                   </div>
                   <span className="text-[10px] font-mono bg-emerald-500/10 text-emerald-400 px-1.5 py-0.5 rounded border border-emerald-500/20">
-                    Passed
+                    Optimized
                   </span>
                 </div>
 
@@ -155,10 +152,10 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
                     </div>
                     <div>
                       <div className="text-[11px] font-semibold text-slate-500 uppercase tracking-wider">
-                        Organic Reach Visibility
+                        Visibility
                       </div>
                       <div className="text-base font-bold text-white mt-0.5">
-                        Islamabad SEO Rank #1
+                        Better visibility for businesses
                       </div>
                     </div>
                   </div>
@@ -170,9 +167,9 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
 
               {/* Window Footer Component */}
               <div className="mt-5 pt-3 border-t border-slate-800/40 flex justify-between items-center font-mono text-[10px] text-slate-500">
-                <span>Infrastructure: Next.js Edge</span>
+                <span>Built for performance & growth</span>
                 <span className="text-indigo-400 font-semibold">
-                  SSL_SECURED
+                  Secure & Optimized
                 </span>
               </div>
             </div>
