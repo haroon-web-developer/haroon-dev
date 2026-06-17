@@ -43,7 +43,7 @@ const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeU
             <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-black tracking-tight text-white leading-[1.1]">
               We Build Web Assets{" "}
               <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-400">
-                That Generate Profit.
+                That Generate More Leads.
               </span>
             </h1>
 
