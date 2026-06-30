@@ -148,7 +148,7 @@ const Layout = ({ children }) => {
               </h4>
               <div className="flex space-x-3">
                 <a
-                  href="https://github.com/haroonashraf-dev?tab=repositories"
+                  href="https://github.com/Haroon-Web-Developer"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="GitHub"
@@ -157,7 +157,7 @@ const Layout = ({ children }) => {
                   <Github size={18} />
                 </a>
                 <a
-                  href="https://www.linkedin.com/in/haroon-ashraf-a09217219?utm_source=share_via&utm_content=profile&utm_medium=member_android"
+                  href="https://www.linkedin.com/in/haroon-web-developer-a09217219/?isSelfProfile=true"
                   target="_blank"
                   rel="noopener noreferrer"
                   aria-label="LinkedIn"
