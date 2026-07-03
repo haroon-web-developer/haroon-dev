@@ -4,7 +4,7 @@ const WhatsAppButton = () => {
   const phone = "923214576734";
 
   const message =
-    "Hey🖐, I am looking to develop a high-performance website for my business. Let's connect to discuss our project requirements and timeline.";
+    "Hey, I am looking to develop a high-performance website for my business. Let's connect to discuss our project requirements and timeline.";
 
   const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(
     message,

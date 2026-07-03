@@ -1,13 +1,13 @@
-import React, { useState } from 'react';
-import { motion } from 'framer-motion';
-import { Send, MapPin, Mail } from 'lucide-react';
-import emailjs from '@emailjs/browser';
+import React, { useState } from "react";
+import { motion } from "framer-motion";
+import { Send, MapPin, Mail } from "lucide-react";
+import emailjs from "@emailjs/browser";
 
 const Contact = () => {
   const [formData, setFormData] = useState({
-    name: '',
-    email: '',
-    message: ''
+    name: "",
+    email: "",
+    message: "",
   });
 
   const [loading, setLoading] = useState(false);
@@ -18,18 +18,18 @@ const Contact = () => {
 
     emailjs
       .send(
-        'service_y5e7nnd',
-        'template_73gc59l',
+        "service_y5e7nnd",
+        "template_73gc59l",
         formData,
-        '_sJcsQDbJTLj1WYH2'
+        "_sJcsQDbJTLj1WYH2",
       )
       .then(() => {
-        alert('Message sent successfully!');
-        setFormData({ name: '', email: '', message: '' });
+        alert("Message sent successfully!");
+        setFormData({ name: "", email: "", message: "" });
       })
       .catch((error) => {
         console.error(error);
-        alert('Something went wrong. Please try again.');
+        alert("Something went wrong. Please try again.");
       })
       .finally(() => {
         setLoading(false);
@@ -40,7 +40,6 @@ const Contact = () => {
     <section id="contact" className="py-10 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -52,12 +51,13 @@ const Contact = () => {
             </h2>
 
             <h3 className="text-3xl md:text-5xl font-bold mb-8">
-              Let's build something <br />great together.
+              Let's build something <br />
+              great together.
             </h3>
 
             <p className="text-slate-400 text-lg mb-12">
-              Whether you have a specific project in mind or just want to chat about tech,
-              feel free to reach out.
+              Whether you have a specific project in mind or just want to chat
+              about tech, feel free to reach out.
             </p>
 
             <div className="space-y-6">
@@ -83,9 +83,7 @@ const Contact = () => {
                   <p className="text-sm text-slate-500 uppercase tracking-widest font-bold">
                     Location
                   </p>
-                  <p className="text-lg text-slate-200">
-                    Remote / Worldwide
-                  </p>
+                  <p className="text-lg text-slate-200">Remote / Worldwide</p>
                 </div>
               </div>
             </div>
@@ -99,9 +97,11 @@ const Contact = () => {
             className="bg-slate-800/40 border border-white/5 p-8 md:p-10 rounded-3xl"
           >
             <form onSubmit={handleSubmit} className="space-y-6">
-
               <div className="space-y-2">
-                <label htmlFor="fullName" className="text-sm font-semibold text-slate-300 ml-1">
+                <label
+                  htmlFor="fullName"
+                  className="text-sm font-semibold text-slate-300 ml-1"
+                >
                   Full Name
                 </label>
                 <input
@@ -118,7 +118,10 @@ const Contact = () => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="emailAddress" className="text-sm font-semibold text-slate-300 ml-1">
+                <label
+                  htmlFor="emailAddress"
+                  className="text-sm font-semibold text-slate-300 ml-1"
+                >
                   Email Address
                 </label>
                 <input
@@ -135,7 +138,10 @@ const Contact = () => {
               </div>
 
               <div className="space-y-2">
-                <label htmlFor="message" className="text-sm font-semibold text-slate-300 ml-1">
+                <label
+                  htmlFor="message"
+                  className="text-sm font-semibold text-slate-300 ml-1"
+                >
                   Message
                 </label>
                 <textarea
@@ -159,10 +165,8 @@ const Contact = () => {
                 <span>{loading ? "Sending..." : "Send Message"}</span>
                 <Send size={18} />
               </button>
-
             </form>
           </motion.div>
-
         </div>
       </div>
     </section>

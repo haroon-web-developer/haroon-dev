@@ -9,7 +9,8 @@ const Services = lazy(() => import('./components/Services'));
 const Skills = lazy(() => import('./components/Skills'));
 const Projects = lazy(() => import('./components/Projects'));
 const Contact = lazy(() => import('./components/Contact'));
-const WhatsAppButton = lazy(() => import('./components/WhatsAppButton'));
+const Assistant = lazy(() => import('./components/Assistant'));
+const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -36,12 +37,20 @@ const App = () => {
               </>
             }
           />
+          <Route
+            path="/admin"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-slate-950 flex items-center justify-center text-slate-400">Loading Dashboard...</div>}>
+                <AdminDashboard />
+              </Suspense>
+            }
+          />
         </Routes>
       </Layout>
 
-      {/* Floating WhatsApp Button */}
+      {/* Floating Elements */}
       <Suspense fallback={null}>
-        <WhatsAppButton />
+        <Assistant />
       </Suspense>
     </Router>
   );

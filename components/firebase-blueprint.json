@@ -1,0 +1,50 @@
+{
+  "entities": {
+    "Project": {
+      "title": "Project",
+      "description": "A portfolio project item shown on the portfolio website",
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string",
+          "description": "Title of the project"
+        },
+        "category": {
+          "type": "string",
+          "description": "Category/niche of the project"
+        },
+        "description": {
+          "type": "string",
+          "description": "A rich description of the project achievements and stack"
+        },
+        "image": {
+          "type": "string",
+          "description": "Unsplash or cover image URL of the project"
+        },
+        "link": {
+          "type": "string",
+          "description": "Live URL or action link of the project"
+        },
+        "tags": {
+          "type": "array",
+          "description": "A list of tech tags used"
+        },
+        "highlightColor": {
+          "type": "string",
+          "description": "Tailwind color gradient class"
+        },
+        "featured": {
+          "type": "boolean",
+          "description": "Whether to highlight the project on the Hero 3D showcase"
+        }
+      },
+      "required": ["title", "category", "description", "image"]
+    }
+  },
+  "firestore": {
+    "projects/{projectId}": {
+      "schema": "Project",
+      "description": "Live portfolio projects collection"
+    }
+  }
+}

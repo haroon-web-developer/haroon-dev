@@ -1,5 +1,8 @@
 
 {
   "name": "Haroon | Front-end Developer & Freelancer",
-  "description": "A high-end professional portfolio for Haroon, a React & MERN stack developer, featuring interactive animations and an AI-powered personal assistant."
+  "description": "A high-end professional portfolio for Haroon, a React & MERN stack developer, featuring interactive animations and an AI-powered personal assistant.",
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
 }

@@ -1,0 +1,14 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Match any document in the projects collection
+    match /projects/{projectId} {
+      // Anyone can read projects to view the portfolio
+      allow read: if true;
+      
+      // Allow write access (create, update, delete) for managing projects.
+      // In a production app, you can restrict writes to authenticated admins (e.g. request.auth != null)
+      allow write: if true;
+    }
+  }
+}
