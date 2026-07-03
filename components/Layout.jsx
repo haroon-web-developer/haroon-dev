@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Twitter, Mail , Phone } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Instagram,Facebook, Mail , Phone } from 'lucide-react';
 
 const Layout = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -132,9 +132,11 @@ const Layout = ({ children }) => {
               <div>
                 <h4 className="font-bold mb-4">Socials</h4>
                 <div className="flex space-x-4">
-                  <a href="https://github.com/haroonashraf-dev?tab=repositories" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Github size={20} /></a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Linkedin size={20} /></a>
-                  <a href="#" target="_blank" rel="noopener noreferrer" aria-label="Twitter" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Twitter size={20} /></a>
+                  <a href="https://github.com/haroon-web-developer" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Github size={20} /></a>
+                  <a href="https://www.linkedin.com/in/haroon-web-developer-a09217219/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Linkedin size={20} /></a>
+                  <a href="https://www.instagram.com/haroon_web_developer/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Instagram size={20} /></a>
+                  <a href="https://www.facebook.com/HaroonWebDev" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Facebook size={20} /></a>
+                  
                 </div>
               </div>
               <div>
@@ -151,11 +153,11 @@ const Layout = ({ children }) => {
 
                 {/* Phone */}
                 <a
-                  href="tel:+92137656641"
+                  href="tel:+923214576734"
                   className="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors"
                 >
                   <Phone size={16} />
-                  <span>+92 137386619</span>
+                  <span>+92 321 4576734</span>
                 </a>
               </div>
             </div>
