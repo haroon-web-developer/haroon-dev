@@ -1,5 +1,10 @@
 User-agent: *
 Allow: /
+
+# Prevent crawl errors on generic frame routes
+Disallow: /_next/
+Disallow: /static/
 Disallow: /admin
 
+# Unified map path
 Sitemap: https://www.haroon-dev.com/sitemap.xml
