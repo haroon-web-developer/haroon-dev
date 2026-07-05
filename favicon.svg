@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100">
+  <defs>
+    <linearGradient id="brandGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6366f1" />
+      <stop offset="100%" stop-color="#a855f7" />
+    </linearGradient>
+  </defs>
+  <!-- Background Rounded Rect -->
+  <rect width="100" height="100" rx="24" fill="#0f172a" />
+  <!-- Dynamic stylized code brackets + H character -->
+  <path d="M 28 35 L 18 50 L 28 65" stroke="url(#brandGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 72 35 L 82 50 L 72 65" stroke="url(#brandGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" fill="none" />
+  <path d="M 40 30 L 40 70 M 60 30 L 60 70 M 40 50 L 60 50" stroke="#f8fafc" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+</svg>
