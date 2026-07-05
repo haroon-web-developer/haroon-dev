@@ -1,8 +1,12 @@
 {
   "cleanUrls": true,
   "rewrites": [
+    { "source": "/sitemap.xml", "destination": "/sitemap.xml" },
     { "source": "/sitemap", "destination": "/sitemap.xml" },
+    { "source": "/robots.txt", "destination": "/robots.txt" },
+    { "source": "/favicon.svg", "destination": "/favicon.svg" },
+    { "source": "/assets/(.*)", "destination": "/assets/$1" },
     { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/((?!api/|assets/|.*\\.[a-zA-Z0-9]+$).*)", "destination": "/index.html" }
+    { "source": "/(.*)", "destination": "/index.html" }
   ]
 }
