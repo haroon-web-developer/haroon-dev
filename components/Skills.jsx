@@ -33,38 +33,47 @@ const Skills = () => {
         </div>
 
         {/* Skills Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {Object.keys(categories).map((cat) => (
             <motion.div
               key={cat}
-              initial={{ opacity: 0, y: 20 }}
+              id={`skills-category-${cat}`}
+              initial={{ opacity: 0, y: 30 }}
               whileInView={{ opacity: 1, y: 0 }}
+              whileHover={{ 
+                y: -6, 
+                borderColor: "rgba(99, 102, 241, 0.3)",
+                boxShadow: "0 15px 30px -10px rgba(99, 102, 241, 0.15)",
+                backgroundColor: "rgba(30, 41, 59, 0.5)"
+              }}
               transition={{ duration: 0.5 }}
               viewport={{ once: true }}
-              className="bg-slate-800/20 border border-white/5 p-8 rounded-3xl"
+              className="bg-slate-900/40 border border-white/5 p-6 rounded-3xl transition-all duration-300"
             >
-              <h4 className="text-xl font-bold mb-8 text-indigo-400 border-b border-indigo-500/10 pb-4">
+              <h4 className="text-xl font-bold mb-5 text-indigo-400 border-b border-indigo-500/10 pb-3">
                 {categories[cat]}
               </h4>
 
-              <div className="space-y-6">
+              <div className="space-y-4">
                 {skills
                   .filter((s) => s.category === cat)
                   .map((skill) => (
-                    <div key={skill.name}>
-                      <div className="flex justify-between mb-2">
-                        <span className="font-medium text-slate-300">{skill.name}</span>
-                        <span className="text-slate-500 text-sm">{skill.level}%</span>
+                    <div key={skill.name} className="group/skill">
+                      <div className="flex justify-between mb-1">
+                        <span className="font-medium text-slate-300 group-hover/skill:text-indigo-300 transition-colors duration-200">
+                          {skill.name}
+                        </span>
+                        <span className="text-slate-500 text-sm group-hover/skill:text-indigo-400/80 transition-colors duration-200">
+                          {skill.level}%
+                        </span>
                       </div>
-                      <div className="h-2 w-full bg-slate-700 rounded-full overflow-hidden">
+                      <div className="h-2 w-full bg-slate-950/40 border border-white/5 rounded-full overflow-hidden">
                         <motion.div
                           initial={{ width: 0 }}
                           whileInView={{ width: `${skill.level}%` }}
-                          transition={{ duration: 1, ease: "easeOut" }}
+                          transition={{ duration: 1.2, ease: "easeOut" }}
                           viewport={{ once: true }}
-                          className={`h-full rounded-full ${
-                            cat === 'learning' ? 'bg-amber-500' : 'bg-indigo-500'
-                          }`}
+                          className={`h-full rounded-full bg-linear-to-r from-indigo-600 via-indigo-500 to-purple-500`}
                         />
                       </div>
                     </div>

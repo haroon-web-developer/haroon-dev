@@ -71,25 +71,56 @@ const Services = () => {
             return (
               <motion.div
                 key={service.id}
-                initial={{ opacity: 0, y: 20 }}
+                id={`service-card-${service.id}`}
+                initial={{ opacity: 0, y: 30 }}
                 whileInView={{ opacity: 1, y: 0 }}
+                whileHover="hover"
                 transition={{ duration: 0.5, delay: idx * 0.1 }}
                 viewport={{ once: true }}
-                className="group p-8 bg-slate-800/40 border border-white/5 rounded-3xl hover:bg-slate-800/60 hover:border-indigo-500/30 transition-all duration-300 text-left"
+                variants={{
+                  hover: {
+                    y: -8,
+                    borderColor: "rgba(99, 102, 241, 0.45)",
+                    boxShadow: "0 20px 40px -15px rgba(99, 102, 241, 0.25)",
+                    backgroundColor: "rgba(30, 41, 59, 0.7)"
+                  }
+                }}
+                className="group relative p-8 bg-slate-900/50 border border-white/5 rounded-3xl transition-all duration-300 text-left overflow-hidden cursor-pointer"
               >
+                {/* Ambient glow light in background */}
+                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
-                <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 mb-6 group-hover:scale-110 transition-transform">
-                  {Icon && <Icon size={28} />}
+                {/* Inner Card Content */}
+                <div className="relative z-10 flex flex-col h-full justify-between">
+                  <div>
+                    {/* Icon Container with glowing micro-interaction */}
+                    <div className="w-14 h-14 rounded-2xl bg-indigo-500/10 flex items-center justify-center text-indigo-400 mb-6 group-hover:bg-indigo-500 group-hover:text-white group-hover:shadow-[0_0_20px_rgba(99,102,241,0.5)] transition-all duration-300">
+                      {Icon && <Icon size={26} />}
+                    </div>
+
+                    <h4 className="text-xl font-bold mb-3 text-white group-hover:text-indigo-200 transition-colors duration-300">
+                      {service.title}
+                    </h4>
+
+                    <p className="text-slate-400 leading-relaxed text-sm group-hover:text-slate-300 transition-colors duration-300">
+                      {service.description}
+                    </p>
+                  </div>
+
+                  {/* Micro-interactive bottom link */}
+                  <div className="mt-8 pt-4 border-t border-white/5 flex items-center justify-between text-xs font-semibold tracking-wider text-indigo-400 uppercase opacity-60 group-hover:opacity-100 group-hover:text-indigo-300 transition-all duration-300">
+                    <span>Inquire About Service</span>
+                    <motion.span
+                      variants={{
+                        hover: { x: 6 }
+                      }}
+                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                      className="text-sm font-bold"
+                    >
+                      →
+                    </motion.span>
+                  </div>
                 </div>
-
-                <h4 className="text-xl font-bold mb-4">
-                  {service.title}
-                </h4>
-
-                <p className="text-slate-400 leading-relaxed">
-                  {service.description}
-                </p>
-
               </motion.div>
             );
           })}

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Terminal, Sparkles, ChevronRight, ChevronLeft, Zap, Trophy, ShieldCheck, Users } from 'lucide-react';
+import { ArrowRight, Terminal, Library, ChevronRight, ChevronLeft, Zap, Trophy, ShieldCheck, Users } from 'lucide-react';
 import { projects } from './projectsData';
 import { projectsService } from '../services/projectsService';
 
@@ -298,7 +298,7 @@ const Hero = () => {
       <div className="absolute top-12 -left-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
       <div className="absolute bottom-12 -right-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
 
-      <div className="relative z-10 max-w-7xl w-full mx-auto px-3 sm:px-6 lg:px-8 flex flex-col justify-center">
+      <div className="relative z-10 max-w-7xl w-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
 
         {/* Stack layout on mobile and standard side-by-side grid on desktop */}
         <div className="flex flex-col md:grid md:grid-cols-12 gap-8 md:gap-4 lg:gap-6 xl:gap-8 md:items-start items-center">
@@ -418,7 +418,7 @@ const Hero = () => {
                   <div className="w-2 h-2 rounded-full bg-rose-500/60" />
                   <div className="w-2 h-2 rounded-full bg-amber-500/60" />
                   <div className="w-2 h-2 rounded-full bg-emerald-500/60" />
-                  <span className="text-[9px] text-slate-500 font-mono ml-1">conversion_metrics.ts</span>
+                  <span className="text-[9px] text-slate-500 font-mono ml-1">conversion_metrics.js</span>
                 </div>
                 <div className="flex items-center space-x-1 text-[8px] tracking-wider text-indigo-400 font-bold uppercase bg-indigo-500/10 px-1.5 py-0.5 rounded">
                   <span className="w-1 h-1 rounded-full bg-indigo-400 animate-ping mr-1" />
@@ -684,7 +684,7 @@ const Hero = () => {
             {/* 2x2 Grid Selector List - Beautifully responsive with direct interactive controls */}
             <div className="w-full max-w-xl md:max-w-2xl space-y-2.5 z-20 px-1 md:px-0 md:mx-auto">
               <div className="flex items-center space-x-1.5 mb-1 px-1 justify-center md:justify-center">
-                <Sparkles size={12} className="text-purple-400 animate-pulse" />
+                <Library size={13} className="text-indigo-400" />
                 <span className="text-[10px] md:text-[9px] font-black text-slate-400 uppercase tracking-widest">
                   Active Catalogue
                 </span>
