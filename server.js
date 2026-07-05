@@ -69,6 +69,50 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
+  // Explicit handlers for sitemap.xml and robots.txt
+  app.get("/sitemap.xml", (req, res) => {
+    const sitemapPath = process.env.NODE_ENV === "production"
+      ? path.join(process.cwd(), "dist", "sitemap.xml")
+      : path.join(process.cwd(), "public", "sitemap.xml");
+    
+    if (fs.existsSync(sitemapPath)) {
+      res.header("Content-Type", "application/xml");
+      res.sendFile(sitemapPath);
+    } else {
+      // Fallback to checking public folder directly if dist is not updated yet
+      const publicSitemapPath = path.join(process.cwd(), "public", "sitemap.xml");
+      if (fs.existsSync(publicSitemapPath)) {
+        res.header("Content-Type", "application/xml");
+        res.sendFile(publicSitemapPath);
+      } else {
+        res.status(404).send("Sitemap not found");
+      }
+    }
+  });
+
+  app.get("/robots.txt", (req, res) => {
+    const robotsPath = process.env.NODE_ENV === "production"
+      ? path.join(process.cwd(), "dist", "robots.txt")
+      : path.join(process.cwd(), "public", "robots.txt");
+    
+    if (fs.existsSync(robotsPath)) {
+      res.header("Content-Type", "text/plain");
+      res.sendFile(robotsPath);
+    } else {
+      const publicRobotsPath = path.join(process.cwd(), "public", "robots.txt");
+      if (fs.existsSync(publicRobotsPath)) {
+        res.header("Content-Type", "text/plain");
+        res.sendFile(publicRobotsPath);
+      } else {
+        res.status(404).send("Robots.txt not found");
+      }
+    }
+  });
+
+  app.get("/sitemap", (req, res) => {
+    res.redirect(301, "/sitemap.xml");
+  });
+
   // Vite middleware for development
   if (process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
