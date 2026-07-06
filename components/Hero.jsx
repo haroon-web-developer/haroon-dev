@@ -295,8 +295,8 @@ const Hero = () => {
   return (
     <section className="relative min-h-[75vh] sm:min-h-screen flex flex-col justify-center pt-20 pb-8 sm:pt-24 md:pt-24 lg:pt-28 sm:pb-20 lg:pb-24 overflow-hidden bg-slate-950">
       {/* Premium ambient light backgrounds (optimized as static to avoid composition lag) */}
-      <div className="absolute top-12 -left-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
-      <div className="absolute bottom-12 -right-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
+      <div className="absolute top-12 -left-20 w-80 h-80 md:w-112.5 md:h-112.5 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
+      <div className="absolute bottom-12 -right-20 w-80 h-80 md:w-112.5 md:h-112.5 bg-purple-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
 
       <div className="relative z-10 max-w-7xl w-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
 
