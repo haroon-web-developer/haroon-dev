@@ -110,14 +110,14 @@ const Assistant = () => {
   };
 
   return (
-    <div className="fixed bottom-6 right-6 z-[100]">
+    <div className="fixed bottom-6 right-6 z-100">
       <AnimatePresence>
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, scale: 0.9, y: 20 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.9, y: 20 }}
-            className="absolute bottom-16 right-0 w-[calc(100vw-2.5rem)] sm:w-[350px] md:w-[400px] h-[500px] bg-[#1e293b] border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
+            className="absolute bottom-16 right-0 w-[calc(100vw-2.5rem)] sm:w-87.5 md:w-100 h-125 bg-[#1e293b] border border-white/10 rounded-3xl shadow-2xl flex flex-col overflow-hidden"
           >
             {/* Header */}
             <div className="p-4 bg-indigo-600 flex items-center justify-between">

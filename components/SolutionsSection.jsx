@@ -119,7 +119,7 @@ const SolutionsSection = ({ onGetQuoteClick }) => {
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="p-8 rounded-3xl bg-gradient-to-r from-indigo-950/40 via-purple-950/20 to-slate-900/40 border border-indigo-500/10 flex flex-col md:flex-row items-center justify-between gap-6 text-left"
+          className="p-8 rounded-3xl bg-linear-to-r from-indigo-950/40 via-purple-950/20 to-slate-900/40 border border-indigo-500/10 flex flex-col md:flex-row items-center justify-between gap-6 text-left"
         >
           <div className="space-y-2">
             <h4 className="text-lg font-bold text-white">Have a unique business requirement?</h4>

@@ -88,7 +88,7 @@ const Services = () => {
                 className="group relative p-8 bg-slate-900/50 border border-white/5 rounded-3xl transition-all duration-300 text-left overflow-hidden cursor-pointer"
               >
                 {/* Ambient glow light in background */}
-                <div className="absolute inset-0 bg-gradient-to-br from-indigo-600/10 via-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+                <div className="absolute inset-0 bg-linear-to-br from-indigo-600/10 via-purple-600/5 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
                 
                 {/* Inner Card Content */}
                 <div className="relative z-10 flex flex-col h-full justify-between">

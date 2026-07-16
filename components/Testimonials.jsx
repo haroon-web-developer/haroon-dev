@@ -76,7 +76,7 @@ const Testimonials = () => {
         </h2>
 
         {/* Slider Box */}
-        <div className="relative bg-[#0d1425]/60 border border-white/5 rounded-3xl p-8 md:p-12 backdrop-blur-xl min-h-[300px] flex flex-col justify-between">
+        <div className="relative bg-[#0d1425]/60 border border-white/5 rounded-3xl p-8 md:p-12 backdrop-blur-xl min-h-75 flex flex-col justify-between">
           
           {/* Quote Icon */}
           <div className="absolute top-6 left-6 text-indigo-500/10 pointer-events-none">

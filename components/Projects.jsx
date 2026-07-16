@@ -37,7 +37,7 @@ const Projects = () => {
   return (
     <section id="projects" className="pt-6 pb-20 md:pt-8 md:pb-24 relative overflow-hidden bg-slate-950">
       {/* Premium ambient decorative elements */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-125 h-125 bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         
@@ -49,7 +49,7 @@ const Projects = () => {
           </div>
           
           <h2 className="text-3xl sm:text-4xl md:text-5xl font-black text-white tracking-tight">
-            Latest Client <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500">Case Studies</span>
+            Latest Client <span className="text-transparent bg-clip-text bg-linear-to-r from-indigo-400 via-purple-400 to-pink-500">Case Studies</span>
           </h2>
           
           <p className="text-slate-400 text-lg leading-relaxed max-w-xl">
@@ -72,9 +72,9 @@ const Projects = () => {
               className="group relative bg-[#0d1425]/60 border border-white/5 hover:border-indigo-500/30 rounded-3xl overflow-hidden shadow-xl transition-all duration-300 flex flex-col h-full hover:shadow-indigo-500/5"
             >
               {/* Image Frame with soft tags overlay */}
-              <div className="relative aspect-[16/10] overflow-hidden bg-slate-900 group-auto">
+              <div className="relative aspect-16/10 overflow-hidden bg-slate-900 group-auto">
                 {/* Accent border highlight inside card top */}
-                <div className={`absolute top-0 inset-x-0 h-1.5 bg-gradient-to-r ${project.highlightColor}`} />
+                <div className={`absolute top-0 inset-x-0 h-1.5 bg-linear-to-r ${project.highlightColor}`} />
                 
                 <img
                   src={project.image}
@@ -85,7 +85,7 @@ const Projects = () => {
                 />
 
                 {/* Dark gradient mask */}
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80" />
+                <div className="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/40 to-transparent opacity-80" />
 
                 {/* Left Top category pill */}
                 <span className="absolute top-4 left-4 inline-flex px-3 py-1 bg-slate-950/80 backdrop-blur-md rounded-full text-[10px] font-bold tracking-wider text-indigo-300 border border-white/5">
@@ -99,7 +99,7 @@ const Projects = () => {
               </div>
 
               {/* Card Body & Information */}
-              <div className="p-6 sm:p-7 flex flex-col flex-grow justify-between space-y-5">
+              <div className="p-6 sm:p-7 flex flex-col grow justify-between space-y-5">
                 <div className="space-y-3">
                   <h3 className="text-lg sm:text-xl font-bold text-white group-hover:text-indigo-300 transition-colors duration-300">
                     {project.title}
@@ -117,7 +117,7 @@ const Projects = () => {
                     {project.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="text-[10px] font-medium tracking-wide px-2 py-0.5 bg-slate-900 text-slate-400 rounded-md border border-white/[0.03]"
+                        className="text-[10px] font-medium tracking-wide px-2 py-0.5 bg-slate-900 text-slate-400 rounded-md border border-white/3"
                       >
                         {tag}
                       </span>

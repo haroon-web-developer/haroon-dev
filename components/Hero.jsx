@@ -295,8 +295,8 @@ const Hero = () => {
   return (
     <section className="relative min-h-[60vh] flex flex-col justify-center pt-6 pb-8 sm:pt-8 md:pt-8 lg:pt-10 sm:pb-16 lg:pb-20 overflow-hidden bg-slate-950">
       {/* Premium ambient light backgrounds (optimized as static to avoid composition lag) */}
-      <div className="absolute top-12 -left-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
-      <div className="absolute bottom-12 -right-20 w-80 h-80 md:w-[450px] md:h-[450px] bg-purple-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
+      <div className="absolute top-12 -left-20 w-80 h-80 md:w-112.5 md:h-112.5 bg-indigo-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
+      <div className="absolute bottom-12 -right-20 w-80 h-80 md:w-112.5 md:h-112.5 bg-purple-600/10 rounded-full blur-[140px] pointer-events-none will-change-transform" />
 
       <div className="relative z-10 max-w-7xl w-full mx-auto px-6 sm:px-12 lg:px-16 flex flex-col justify-center">
 
@@ -311,7 +311,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6 }}
-              className="inline-flex items-center self-start space-x-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-gradient-to-r from-indigo-500/15 to-purple-500/15 border border-indigo-500/30 text-indigo-400 text-[10px] sm:text-xs font-semibold shadow-sm"
+              className="inline-flex items-center self-start space-x-1.5 px-3 py-1 sm:px-4 sm:py-1.5 rounded-full bg-linear-to-r from-indigo-500/15 to-purple-500/15 border border-indigo-500/30 text-indigo-400 text-[10px] sm:text-xs font-semibold shadow-sm"
             >
              
              
@@ -332,7 +332,7 @@ const Hero = () => {
                 className="text-2xl xs:text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6.5xl font-black tracking-tight text-white leading-tight sm:leading-[1.1]"
               >
                 We Build High-Performance Web Assets{" "}
-                <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-purple-400 to-pink-500">
+                <span className="bg-clip-text text-transparent bg-linear-to-r from-indigo-400 via-purple-400 to-pink-500">
                   That Convert Visitors Into Customers.
                 </span>
               </motion.h1>
@@ -367,7 +367,7 @@ const Hero = () => {
             >
               <a
                 href="#projects"
-                className="group px-2.5 py-1.5 xs:px-3 xs:py-2.5 sm:px-6 sm:py-3.5 bg-gradient-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-md sm:rounded-xl text-[8.5px] xs:text-[10px] sm:text-sm font-bold flex items-center justify-center shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5"
+                className="group px-2.5 py-1.5 xs:px-3 xs:py-2.5 sm:px-6 sm:py-3.5 bg-linear-to-r from-indigo-600 to-purple-600 hover:from-indigo-500 hover:to-purple-500 text-white rounded-md sm:rounded-xl text-[8.5px] xs:text-[10px] sm:text-sm font-bold flex items-center justify-center shadow-lg shadow-indigo-600/20 transition-all transform hover:-translate-y-0.5"
               >
                 Explore Case Studies
                 <ArrowRight className="ml-1 sm:ml-2 group-hover:translate-x-1 transition-transform" size={11} />
@@ -392,11 +392,11 @@ const Hero = () => {
               <div className="w-2/3 sm:w-full border-t border-white/10 pt-3 mt-3 sm:pt-4 sm:mt-4" />
               <div className="flex flex-wrap items-center gap-x-4 gap-y-2 mt-2 text-slate-400 text-[8px] xs:text-[9.5px] sm:text-[11px] md:text-xs">
                 <div className="flex items-center space-x-1.5">
-                  <Users size={12} className="text-indigo-400 flex-shrink-0" />
+                  <Users size={12} className="text-indigo-400 shrink-0" />
                   <span className="text-slate-400">Built for real business results</span>
                 </div>
                 <div className="flex items-center space-x-1.5">
-                  <Zap size={11} className="text-amber-400 flex-shrink-0 animate-pulse" />
+                  <Zap size={11} className="text-amber-400 shrink-0 animate-pulse" />
                   <span className="text-slate-400">Fast & mobile optimized</span>
                 </div>
               </div>
@@ -410,7 +410,7 @@ const Hero = () => {
               className="hidden md:block mt-6 w-full max-w-lg rounded-xl border border-slate-800/60 bg-slate-950/30 p-3 sm:p-4 shadow-2xl relative overflow-hidden backdrop-blur-sm group border-l-2 border-l-indigo-500/30"
             >
               {/* Backlight shine glow */}
-              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-indigo-500/5 to-transparent pointer-events-none" />
+              <div className="absolute inset-0 bg-linear-to-tr from-transparent via-indigo-500/5 to-transparent pointer-events-none" />
               
               {/* Terminal Title Bar */}
               <div className="flex items-center justify-between border-b border-white/5 pb-2 mb-3">
@@ -439,10 +439,10 @@ const Hero = () => {
             onMouseLeave={() => setIsHovered(false)}
           >
             {/* Ambient Purple/Indigo Backlight Behind Book Stack */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-38 sm:w-[350px] sm:h-[350px] bg-indigo-500/10 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-48 h-38 sm:w-87.5 sm:h-87.5 bg-indigo-500/10 rounded-full blur-[60px] sm:blur-[100px] pointer-events-none" />
 
             {/* Interactive 3D Stack Container - Beautifully enlarged on mobile for gorgeous readability, with a safe margin-bottom to clear absolute control widget */}
-            <div className="relative w-[310px] xs:w-[350px] sm:w-[370px] md:w-[330px] lg:w-[370px] xl:w-[400px] h-[210px] xs:h-[236px] sm:h-[250px] md:h-[390px] lg:h-[440px] xl:h-[480px] flex-shrink-0 z-20 mb-16 sm:mb-20 md:mb-16 lg:mb-16 xl:mb-18">
+            <div className="relative w-77.5 xs:w-[350px] sm:w-92.5 md:w-82.5 lg:w-92.5 xl:w-100 h-52.5 xs:h-[236px] sm:h-62.5 md:h-97.5 lg:h-110 xl:h-120 shrink-0 z-20 mb-16 sm:mb-20 md:mb-16 lg:mb-16 xl:mb-18">
               
               {/* Desk Shadow Cast to Ground the 3D Books */}
               <motion.div
@@ -529,7 +529,7 @@ const Hero = () => {
                         setActiveIndex(idx);
                       }
                     }}
-                    className={`absolute inset-0 rounded-lg sm:rounded-2xl cursor-grab active:cursor-grabbing select-none border border-white/10 flex origin-left bg-gradient-to-br ${bookStyles.color} shadow-[6px_6px_20px_rgba(0,0,0,0.6)] touch-none`}
+                    className={`absolute inset-0 rounded-lg sm:rounded-2xl cursor-grab active:cursor-grabbing select-none border border-white/10 flex origin-left bg-linear-to-br ${bookStyles.color} shadow-[6px_6px_20px_rgba(0,0,0,0.6)] touch-none`}
                     style={{ 
                       transformStyle: "preserve-3d", 
                       perspective: 1200, 
@@ -538,14 +538,14 @@ const Hero = () => {
                     }}
                   >
                     {/* Realistic Textured Book Spine - Slimmer, wider on mobile, highly premium */}
-                    <div className={`w-5 xs:w-6 sm:w-8 md:w-10 xl:w-12 h-full ${bookStyles.spineColor} flex-shrink-0 flex flex-col justify-between items-center py-2 sm:py-6 md:py-8 border-r border-black/40 shadow-[inset_-3px_0_6px_rgba(0,0,0,0.6)]`}>
+                    <div className={`w-5 xs:w-6 sm:w-8 md:w-10 xl:w-12 h-full ${bookStyles.spineColor} shrink-0 flex flex-col justify-between items-center py-2 sm:py-6 md:py-8 border-r border-black/40 shadow-[inset_-3px_0_6px_rgba(0,0,0,0.6)]`}>
                       <div className="flex flex-col items-center space-y-1 sm:space-y-2 md:space-y-3">
                         <div className="w-1 h-1 sm:w-1.5 sm:h-1.5 rounded-full bg-amber-400/80 shadow" />
-                        <div className="w-0.5 h-8 sm:h-16 md:h-24 rounded-full bg-gradient-to-b from-transparent via-amber-400/60 to-transparent" />
+                        <div className="w-0.5 h-8 sm:h-16 md:h-24 rounded-full bg-linear-to-b from-transparent via-amber-400/60 to-transparent" />
                       </div>
                       
                       {/* Realistic vertical spine alignment space */}
-                      <div className="relative flex items-center justify-center w-full flex-grow my-4 overflow-visible" />
+                      <div className="relative flex items-center justify-center w-full grow my-4 overflow-visible" />
                       
                       {/* Padded numbered badges ensuring no database-generated long numeric strings overflow the circle */}
                       <div className="w-4 h-4 sm:w-6 sm:h-6 md:w-7 md:h-7 xl:w-8 xl:h-8 rounded-full border border-amber-400/30 flex items-center justify-center">
@@ -558,10 +558,10 @@ const Hero = () => {
                     {/* Book Front Cover Page Content */}
                     <div className={`flex-1 p-2 xs:p-3 sm:p-4 md:p-5 lg:p-6 flex flex-col justify-between relative overflow-hidden pr-3 sm:pr-6 md:pr-8 transition-opacity duration-300 ${relativeIndex === 0 ? "opacity-100" : "opacity-0 pointer-events-none"}`}>
                       {/* Premium Light Sheen & Texture Overlay */}
-                      <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none mix-blend-overlay" />
+                      <div className="absolute inset-0 bg-linear-to-tr from-transparent via-white/5 to-transparent pointer-events-none mix-blend-overlay" />
                       
                       {/* Realistic vertical leather fold/crease near the spine */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[1px] bg-black/30 shadow-[1px_0_2px_rgba(255,255,255,0.08)] pointer-events-none" />
+                      <div className="absolute left-0 top-0 bottom-0 w-px bg-black/30 shadow-[1px_0_2px_rgba(255,255,255,0.08)] pointer-events-none" />
 
                       {/* Top Label Card */}
                       <div className="flex items-center justify-between border-b border-white/10 pb-1 sm:pb-3 md:pb-4">
@@ -577,7 +577,7 @@ const Hero = () => {
                       </div>
 
                       {/* Visual Project Cover Image (Simulating beautiful gold foil frame and black passe-partout in widescreen ratio) */}
-                      <div className="my-1 sm:my-1.5 md:my-2 aspect-[2.2] md:aspect-[1.65] lg:aspect-[1.6] xl:aspect-[1.5] w-full rounded-md md:rounded-lg overflow-hidden border border-amber-400/30 p-1 bg-black/40 relative shadow-inner group flex-grow">
+                      <div className="my-1 sm:my-1.5 md:my-2 aspect-[2.2] md:aspect-[1.65] lg:aspect-[1.6] xl:aspect-[1.5] w-full rounded-md md:rounded-lg overflow-hidden border border-amber-400/30 p-1 bg-black/40 relative shadow-inner group grow">
                         <div className="w-full h-full rounded-sm md:rounded-md overflow-hidden relative">
                           <img
                             src={proj.image}
@@ -586,7 +586,7 @@ const Hero = () => {
                             decoding="async"
                             className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
                           />
-                          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
+                          <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
                         </div>
                       </div>
 
@@ -615,10 +615,10 @@ const Hero = () => {
                     </div>
 
                     {/* Simulated 3D Paper Pages block on the right edge */}
-                    <div className="absolute right-0 top-[1px] sm:top-[2px] bottom-[1px] sm:bottom-[2px] w-1.5 xs:w-2 sm:w-3 md:w-4 bg-[#fdfcfb] rounded-r-[2px] sm:rounded-r-[5px] border-l border-slate-900/40 shadow-[inset_1px_0_3px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col justify-around py-0.5 sm:py-2 pointer-events-none z-0">
-                      <div className="w-full h-[1px] bg-slate-300/60" />
-                      <div className="w-full h-[1px] bg-slate-300/60" />
-                      <div className="w-full h-[1px] bg-slate-300/60" />
+                    <div className="absolute right-0 top-px sm:top-0.5 bottom-px sm:bottom-0.5 w-1.5 xs:w-2 sm:w-3 md:w-4 bg-[#fdfcfb] rounded-r-xs sm:rounded-r-[5px] border-l border-slate-900/40 shadow-[inset_1px_0_3px_rgba(0,0,0,0.15)] overflow-hidden flex flex-col justify-around py-0.5 sm:py-2 pointer-events-none z-0">
+                      <div className="w-full h-px bg-slate-300/60" />
+                      <div className="w-full h-px bg-slate-300/60" />
+                      <div className="w-full h-px bg-slate-300/60" />
                     </div>
 
 
@@ -639,10 +639,10 @@ const Hero = () => {
                             transition={{ repeat: Infinity, repeatType: "reverse", duration: 0.6 }}
                             className="p-1 sm:p-3 bg-indigo-600/20 border border-indigo-500/30 rounded-full text-indigo-400 mb-0.5 sm:mb-2 shadow-lg shadow-indigo-500/10"
                           >
-                            {dragDirection === 'left' && <ChevronLeft size={12} className="rotate-180 sm:w-[24px] sm:h-[24px]" />}
-                            {dragDirection === 'right' && <ChevronLeft size={12} className="sm:w-[24px] sm:h-[24px]" />}
-                            {dragDirection === 'up' && <ChevronLeft size={12} className="rotate-90 sm:w-[24px] sm:h-[24px]" />}
-                            {dragDirection === 'down' && <ChevronLeft size={12} className="-rotate-90 sm:w-[24px] sm:h-[24px]" />}
+                            {dragDirection === 'left' && <ChevronLeft size={12} className="rotate-180 sm:w-6 sm:h-6" />}
+                            {dragDirection === 'right' && <ChevronLeft size={12} className="sm:w-6 sm:h-6" />}
+                            {dragDirection === 'up' && <ChevronLeft size={12} className="rotate-90 sm:w-6 sm:h-6" />}
+                            {dragDirection === 'down' && <ChevronLeft size={12} className="-rotate-90 sm:w-6 sm:h-6" />}
                           </motion.div>
                           <span className="text-[7px] sm:text-xs font-mono font-bold tracking-widest text-indigo-300 uppercase">
                             {dragDirection === 'left' || dragDirection === 'up' ? 'Next' : 'Prev'}
@@ -662,7 +662,7 @@ const Hero = () => {
                     className="p-0.5 hover:text-indigo-400 text-slate-400 transition-colors"
                     aria-label="Previous Book"
                   >
-                    <ChevronLeft size={10} className="sm:w-[16px] sm:h-[16px]" />
+                    <ChevronLeft size={10} className="sm:w-4 sm:h-4" />
                   </button>
                   <span className="text-[7px] sm:text-[10px] font-mono text-slate-400 font-bold tracking-wider whitespace-nowrap">
                     0{activeIndex + 1} / 0{featuredProjects.length}
@@ -672,7 +672,7 @@ const Hero = () => {
                     className="p-0.5 hover:text-indigo-400 text-slate-400 transition-colors"
                     aria-label="Next Book"
                   >
-                    <ChevronRight size={10} className="sm:w-[16px] sm:h-[16px]" />
+                    <ChevronRight size={10} className="sm:w-4 sm:h-4" />
                   </button>
                 </div>
                 <div className="text-[6px] sm:text-[9px] text-indigo-400/80 tracking-widest uppercase font-bold animate-pulse text-center whitespace-nowrap">
@@ -699,7 +699,7 @@ const Hero = () => {
                       key={proj.id}
                       onMouseEnter={() => typeof window !== "undefined" && window.innerWidth >= 768 && setActiveIndex(idx)}
                       onClick={() => setActiveIndex(idx)}
-                      className="relative w-full text-left p-2 sm:p-2.5 md:p-2.5 rounded-xl border transition-all duration-300 flex items-center justify-between overflow-hidden bg-[#0d1425]/40 border-white/5 hover:bg-white/[0.02] hover:border-white/10 text-slate-400 cursor-pointer"
+                      className="relative w-full text-left p-2 sm:p-2.5 md:p-2.5 rounded-xl border transition-all duration-300 flex items-center justify-between overflow-hidden bg-[#0d1425]/40 border-white/5 hover:bg-white/2 hover:border-white/10 text-slate-400 cursor-pointer"
                     >
                       <div className="flex items-center space-x-2 md:space-x-2.5 z-10 min-w-0">
                         <span className={`font-mono text-[9.5px] xs:text-[10.5px] md:text-[10px] font-bold ${isActive ? bookStyles.accentColor : 'text-slate-600'}`}>
@@ -716,14 +716,14 @@ const Hero = () => {
                       </div>
                       <ChevronRight 
                         size={11} 
-                        className={`transition-transform duration-300 z-10 flex-shrink-0 ${isActive ? 'translate-x-1 ' + bookStyles.accentColor : 'text-slate-600'}`} 
+                        className={`transition-transform duration-300 z-10 shrink-0 ${isActive ? 'translate-x-1 ' + bookStyles.accentColor : 'text-slate-600'}`} 
                       />
 
                       {/* Elite Linear Progress Bar Auto-rotator Indicator */}
                       {isActive && (
                         <motion.div 
                           key={activeIndex}
-                          className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-indigo-500 via-purple-500 to-pink-500"
+                          className="absolute bottom-0 left-0 h-0.5 bg-linear-to-r from-indigo-500 via-purple-500 to-pink-500"
                           initial={{ width: "0%" }}
                           animate={{ width: (isHovered || isDragging) ? "0%" : "100%" }}
                           transition={{ duration: 5, ease: "linear" }}

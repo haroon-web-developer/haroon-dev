@@ -332,7 +332,7 @@ const QuoteCalculator = () => {
                             Paced, secure, and fully optimized development cycle following strict schema and speed checkmarks.
                           </p>
                           <span className="text-xs text-indigo-400 font-mono font-bold">
-                            Base Price Rates (Takes ~{projectType.baseDays + selectedFeatures.reduce((acc, fid) => acc + (FEATURES.find(f => f.id === fid)?.days || 0), 0)} days)
+                            Base Price Rates (Takes ~{projectType.baseDays + selectedFeatures.reduce((acc, fid) => acc + (features.find(f => f.id === fid)?.days || 0), 0)} days)
                           </span>
                         </button>
 

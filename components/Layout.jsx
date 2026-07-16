@@ -107,8 +107,8 @@ const Layout = ({ children }) => {
               whileHover={{ scale: 1.02 }}
               className="text-2xl font-black tracking-tighter"
             >
-              <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400">
-                HAROON.DEV
+              <Link to="/" className="bg-clip-text text-transparent bg-linear-to-r from-indigo-400 via-rose-400 to-amber-400">
+                HAROON-DEV
               </Link>
             </motion.div>
 
@@ -122,7 +122,7 @@ const Layout = ({ children }) => {
                   className="relative text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors group"
                 >
                   {link.name}
-                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-indigo-500 transition-all duration-300 group-hover:w-full" />
+                  <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-500 transition-all duration-300 group-hover:w-full" />
                 </Link>
               ))}
 
@@ -144,7 +144,7 @@ const Layout = ({ children }) => {
                   className={`px-5 py-2.5 rounded-xl text-white text-xs font-black tracking-wider uppercase shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer ${
                     isPortfolio
                       ? "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/10"
-                      : "bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-rose-600/10"
+                      : "bg-linear-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-rose-600/10"
                   }`}
                 >
                   {isPortfolio ? "Connect Me" : "Get Free Quote →"}
@@ -204,7 +204,7 @@ const Layout = ({ children }) => {
                   className={`w-full py-3.5 rounded-xl text-white text-center font-bold text-sm shadow-md ${
                     isPortfolio
                       ? "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/10"
-                      : "bg-gradient-to-r from-rose-600 to-amber-600 shadow-rose-600/10"
+                      : "bg-linear-to-r from-rose-600 to-amber-600 shadow-rose-600/10"
                   }`}
                 >
                   {isPortfolio ? "Connect Me" : "Get Free Quote"}
@@ -222,7 +222,7 @@ const Layout = ({ children }) => {
           <div className="max-w-7xl mx-auto px-4 md:px-8">
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12">
               <div className="space-y-4">
-                <h3 className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400">
+                <h3 className="text-2xl font-black bg-clip-text text-transparent bg-linear-to-r from-indigo-400 via-rose-400 to-amber-400">
                   HAROON.DEV
                 </h3>
                 <p className="text-slate-400 text-sm leading-relaxed font-light">
@@ -299,12 +299,8 @@ const Layout = ({ children }) => {
                 </div>
               </div>
             </div>
-            <div className="pt-8 border-t border-white/5 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
-              <span>© {new Date().getFullYear()} HAROON.DEV. All rights reserved.</span>
-              <div className="flex gap-4">
-                <a href="https://github.com/haroon-web-developer" target="_blank" rel="noreferrer" className="hover:text-white transition">GitHub</a>
-                <Link to="/admin" className="hover:text-indigo-400 transition">Admin Console</Link>
-              </div>
+            <div className="pt-6 border-t border-white/5 text-center text-slate-500 text-xs  flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+              <span>© {new Date().getFullYear()} HAROON-DEV. All rights reserved.</span>
             </div>
           </div>
         </footer>

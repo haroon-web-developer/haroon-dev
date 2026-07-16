@@ -763,7 +763,7 @@ const AdminDashboard = () => {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/10 cursor-pointer flex items-center justify-center space-x-2 ${
+              className={`w-full py-3 px-4 bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/10 cursor-pointer flex items-center justify-center space-x-2 ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -791,8 +791,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-4 sm:p-6 lg:p-8 relative">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/3 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-125 h-125 bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-125 h-125 bg-purple-500/3 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         

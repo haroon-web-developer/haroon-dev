@@ -32,7 +32,7 @@ const StatsSection = () => {
   return (
     <section className="py-16 bg-[#0c122c] border-y border-white/5 relative overflow-hidden">
       {/* Background ambient glows */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[400px] h-[400px] bg-indigo-600/5 rounded-full blur-[100px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-100 h-100 bg-indigo-600/5 rounded-full blur-[100px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
         
@@ -61,7 +61,7 @@ const StatsSection = () => {
                 <div>
                   {/* Icon & Counter */}
                   <div className="flex items-center justify-between mb-4">
-                    <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-gradient-to-r from-white via-slate-100 to-slate-300">
+                    <div className="text-3xl md:text-4xl font-extrabold tracking-tight bg-clip-text text-transparent bg-linear-to-r from-white via-slate-100 to-slate-300">
                       {stat.value}
                     </div>
                     <div className="p-2.5 bg-white/5 border border-white/10 rounded-xl text-slate-300">
@@ -81,7 +81,7 @@ const StatsSection = () => {
                 </div>
 
                 {/* Bottom decorative color slide */}
-                <div className={`h-1 w-12 rounded-full bg-gradient-to-r ${stat.color || "from-indigo-500 to-purple-500"} mt-6 opacity-60`} />
+                <div className={`h-1 w-12 rounded-full bg-linear-to-r ${stat.color || "from-indigo-500 to-purple-500"} mt-6 opacity-60`} />
               </motion.div>
             );
           })}
