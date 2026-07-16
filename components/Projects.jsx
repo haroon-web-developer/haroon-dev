@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import { ExternalLink, ArrowRight, Code2, Sparkles } from "lucide-react";
-import { projects as defaultProjects } from "./projectsData";
+import { projects as defaultProjects } from "../services/projectsData";
 import { projectsService } from "../services/projectsService";
 
 const containerVariants = {

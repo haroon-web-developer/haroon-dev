@@ -8,7 +8,7 @@ import {
   doc, 
   setDoc
 } from "firebase/firestore";
-import { projects as defaultProjects } from "../components/projectsData";
+import { projects as defaultProjects } from "./projectsData";
 
 const LOCAL_STORAGE_KEY = "haroon_portfolio_projects";
 

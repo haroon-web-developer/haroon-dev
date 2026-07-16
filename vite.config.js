@@ -31,7 +31,8 @@ export default defineConfig(({ mode }) => {
         rollupOptions: {
           output: {
             manualChunks: {
-              vendor: ['react', 'react-dom', 'react-router-dom', 'framer-motion', 'lucide-react']
+              'react-vendor': ['react', 'react-dom'],
+              'router-vendor': ['react-router-dom'],
             }
           }
         }
