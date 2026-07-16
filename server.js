@@ -2,6 +2,7 @@ import express from "express";
 import path from "path";
 import fs from "fs";
 import dns from "dns";
+import compression from "compression";
 import { fileURLToPath } from "url";
 import { createServer as createViteServer } from "vite";
 import chatHandler from "./api/chat.js";
@@ -46,6 +47,9 @@ try {
 async function startServer() {
   const app = express();
   const PORT = 3000;
+
+  // Compress all responses
+  app.use(compression());
 
   // Body parser for JSON
   app.use(express.json());
@@ -122,7 +126,19 @@ async function startServer() {
     app.use(vite.middlewares);
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
+    app.use(express.static(distPath, {
+      maxAge: '1y',
+      etag: true,
+      setHeaders: (res, filePath) => {
+        if (filePath.endsWith('.html')) {
+          // Do not cache html file so updates are seen instantly
+          res.setHeader('Cache-Control', 'no-cache, no-store, must-revalidate');
+        } else {
+          // Cache JS, CSS, images, fonts aggressively (1 year)
+          res.setHeader('Cache-Control', 'public, max-age=31536000, immutable');
+        }
+      }
+    }));
     app.get('*all', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });

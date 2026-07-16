@@ -1,4 +1,4 @@
-import { db } from "./firebase";
+import { db, auth } from "./firebase";
 import { 
   collection, 
   getDocs, 
@@ -43,21 +43,26 @@ export const projectsService = {
         }));
 
         if (list.length === 0) {
-          console.log("Firestore projects collection is empty. Auto-seeding with premium defaults...");
-          // Seed the database with default projects
-          const seedPromises = defaultProjects.map(async (p) => {
-            const { id, ...dataWithoutId } = p;
-            // Use setDoc with a stringified/original ID, or addDoc
-            await setDoc(doc(db, "projects", id), dataWithoutId);
-            return { id, ...dataWithoutId };
-          });
-          const seeded = await Promise.all(seedPromises);
-          return seeded;
+          if (auth && auth.currentUser) {
+            console.log("Firestore projects collection is empty. Auto-seeding with premium defaults...");
+            // Seed the database with default projects
+            const seedPromises = defaultProjects.map(async (p) => {
+              const { id, ...dataWithoutId } = p;
+              // Use setDoc with a stringified/original ID, or addDoc
+              await setDoc(doc(db, "projects", id), dataWithoutId);
+              return { id, ...dataWithoutId };
+            });
+            const seeded = await Promise.all(seedPromises);
+            return seeded;
+          } else {
+            console.log("Firestore projects collection is empty. Public visitor - returning default local projects.");
+            return getLocalProjects();
+          }
         }
 
         return list;
       } catch (error) {
-        console.error("Firestore fetch error, falling back to localStorage:", error);
+        console.warn("Firestore fetch error, falling back to localStorage:", error.message || error);
         return getLocalProjects();
       }
     } else {
@@ -107,7 +112,7 @@ export const projectsService = {
     if (db) {
       try {
         const docRef = doc(db, "projects", id);
-        await updateDoc(docRef, updatedData);
+        await setDoc(docRef, updatedData, { merge: true });
         return { id, ...updatedData };
       } catch (error) {
         console.error("Firestore update error:", error);

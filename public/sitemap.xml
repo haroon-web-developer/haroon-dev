@@ -1,31 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <!-- 🏠 Main Landing Page (Local SEO & Brand Hub) -->
   <url>
-    <loc>https://www.haroon-dev.com/</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://haroon-dev.com/</loc>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
-  <!-- 🛠️ Services Page (Web Design & MERN Stack Leads) -->
   <url>
-    <loc>https://www.haroon-dev.com/services</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://haroon-dev.com/portfolio</loc>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
-  <!-- 📂 Case Studies & Live Project Previews -->
   <url>
-    <loc>https://www.haroon-dev.com/projects</loc>
-    <lastmod>2026-07-05</lastmod>
+    <loc>https://haroon-dev.com/service/sol_1</loc>
+    <lastmod>2026-07-15</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
-  <!-- 📞 Contact Page (Lead Generation Strategy Hub) -->
   <url>
-    <loc>https://www.haroon-dev.com/contact</loc>
-    <lastmod>2026-07-05</lastmod>
-    <changefreq>monthly</changefreq>
+    <loc>https://haroon-dev.com/service/sol_2</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://haroon-dev.com/service/sol_3</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://haroon-dev.com/service/sol_4</loc>
+    <lastmod>2026-07-15</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
 </urlset>

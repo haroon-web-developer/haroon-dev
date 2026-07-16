@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Menu, X, Github, Linkedin, Instagram,Facebook, Mail , Phone } from 'lucide-react';
+import { Menu, X, Github, Linkedin, Twitter, Mail, Phone, MessageSquare, Facebook, Instagram } from 'lucide-react';
 
 const Layout = ({ children }) => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation();
+  const navigate = useNavigate();
   const isAdminRoute = location.pathname.startsWith('/admin');
 
   useEffect(() => {
@@ -15,68 +16,150 @@ const Layout = ({ children }) => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const navLinks = [
-    { name: 'About', href: '#about' },
-    { name: 'Services', href: '#services' },
-    { name: 'Projects', href: '#projects' },
-    { name: 'Skills', href: '#skills' },
-    
-  ];
+  const isPortfolio = location.pathname === '/portfolio';
+
+  const navLinks = isPortfolio
+    ? [
+        { name: 'Agency Home', to: '/' },
+        { name: 'About', to: '/portfolio#about', isHash: true },
+        { name: 'Services', to: '/portfolio#services', isHash: true },
+        { name: 'Projects', to: '/portfolio#projects', isHash: true },
+        { name: 'Skills', to: '/portfolio#skills', isHash: true }
+      ]
+    : [
+        { name: 'Home', to: '/' },
+        { name: 'Solutions', to: '/#solutions', isHash: true },
+        { name: 'Portfolio', to: '/portfolio' }
+      ];
+
+  const handleLinkClick = (link, e) => {
+    setIsMenuOpen(false);
+    if (link.isHash) {
+      e.preventDefault();
+      const parts = link.to.split('#');
+      const pathName = parts[0];
+      const hash = parts[1];
+      if (location.pathname === pathName) {
+        const element = document.getElementById(hash);
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      } else {
+        navigate(pathName);
+        setTimeout(() => {
+          const element = document.getElementById(hash);
+          if (element) {
+            element.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 150);
+      }
+    }
+  };
+
+  const scrollToQuote = (e) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    if (location.pathname === '/') {
+      const element = document.getElementById('quote-configurator');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      navigate('/');
+      setTimeout(() => {
+        const element = document.getElementById('quote-configurator');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth' });
+        }
+      }, 150);
+    }
+  };
+
+  const handleCtaClick = (e) => {
+    e.preventDefault();
+    setIsMenuOpen(false);
+    if (isPortfolio) {
+      const element = document.getElementById('contact');
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      scrollToQuote(e);
+    }
+  };
+
+  const phone = "923214576734";
+  const whatsappUrl = `https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent("Hi, I want to talk about a project inquiry.")}`;
 
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen bg-[#0a0f1d] text-white">
       {!isAdminRoute && (
         <nav
-          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 print:hidden ${
             isScrolled
-              ? "bg-[#0f172a]/70 backdrop-blur-xl border-b border-white/10 py-3"
-              : "bg-transparent py-3 md:py-4"
+              ? "bg-[#0a0f1d]/85 backdrop-blur-xl border-b border-white/5 py-3"
+              : "bg-transparent py-4"
           }`}
         >
           <div className="max-w-7xl mx-auto px-4 md:px-8 flex items-center justify-between">
             {/* Logo */}
-            <motion.a
-              href="#"
-              whileHover={{ scale: 1.05 }}
-              className="text-2xl font-bold gradient-text tracking-tighter"
+            <motion.div
+              whileHover={{ scale: 1.02 }}
+              className="text-2xl font-black tracking-tighter"
             >
-              HAROON.DEV
-            </motion.a>
+              <Link to="/" className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400">
+                HAROON.DEV
+              </Link>
+            </motion.div>
 
             {/* Desktop Nav */}
-            <div className="hidden md:flex items-center space-x-10">
+            <div className="hidden md:flex items-center space-x-8">
               {navLinks.map((link) => (
-                <motion.a
+                <Link
                   key={link.name}
-                  href={link.href}
-                  whileHover={{ y: -2 }}
-                  className="relative text-sm font-medium text-slate-400 hover:text-white transition-colors group"
+                  to={link.to}
+                  onClick={(e) => handleLinkClick(link, e)}
+                  className="relative text-xs font-bold uppercase tracking-wider text-slate-300 hover:text-white transition-colors group"
                 >
                   {link.name}
-                  <span className="absolute left-0 -bottom-1 w-0 h-0.5 bg-indigo-500 transition-all duration-300 group-hover:w-full" />
-                </motion.a>
+                  <span className="absolute left-0 -bottom-1 w-0 h-[2px] bg-indigo-500 transition-all duration-300 group-hover:w-full" />
+                </Link>
               ))}
 
-              <motion.a
-                href="#contact"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-2.5 rounded-full bg-indigo-600 text-white text-sm font-semibold shadow-lg shadow-indigo-500/20"
-              >
-                Connect Me
-              </motion.a>
+              {/* Swismax Style WhatsApp & Free Quote Header buttons */}
+              <div className="flex items-center gap-3 pl-4 border-l border-white/10">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 text-emerald-400 border border-emerald-500/20 text-xs font-bold flex items-center gap-1.5 transition-all"
+                  title="Connect via WhatsApp"
+                >
+                  <MessageSquare size={14} />
+                  <span className="hidden lg:inline">WhatsApp</span>
+                </a>
+
+                <button
+                  onClick={handleCtaClick}
+                  className={`px-5 py-2.5 rounded-xl text-white text-xs font-black tracking-wider uppercase shadow-md transition-all transform hover:-translate-y-0.5 cursor-pointer ${
+                    isPortfolio
+                      ? "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/10"
+                      : "bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 shadow-rose-600/10"
+                  }`}
+                >
+                  {isPortfolio ? "Connect Me" : "Get Free Quote →"}
+                </button>
+              </div>
             </div>
 
             {/* Mobile Toggle */}
             <motion.button
               aria-label="Toggle menu"
-              whileTap={{ scale: 0.9 }}
-              animate={{ rotate: isMenuOpen ? 90 : 0 }}
-              transition={{ duration: 0.3 }}
-              className="md:hidden text-slate-300"
+              whileTap={{ scale: 0.95 }}
+              className="md:hidden text-slate-300 p-1 bg-white/5 rounded-lg border border-white/5"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
             >
-              {isMenuOpen ? <X size={26} /> : <Menu size={26} />}
+              {isMenuOpen ? <X size={20} /> : <Menu size={20} />}
             </motion.button>
           </div>
         </nav>
@@ -90,26 +173,42 @@ const Layout = ({ children }) => {
               initial={{ opacity: 0, y: -20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="fixed inset-0 z-40 bg-[#0f172a] pt-24 px-6 md:hidden"
+              className="fixed inset-0 z-40 bg-[#0a0f1d] pt-24 px-6 md:hidden flex flex-col justify-between pb-8"
             >
-              <div className="flex flex-col space-y-6">
+              <div className="flex flex-col space-y-4">
                 {navLinks.map((link) => (
-                  <a 
+                  <Link 
                     key={link.name} 
-                    href={link.href}
-                    className="text-2xl font-semibold text-slate-300 border-b border-white/10 pb-4"
-                    onClick={() => setIsMenuOpen(false)}
+                    to={link.to}
+                    onClick={(e) => handleLinkClick(link, e)}
+                    className="text-xl font-bold text-slate-200 border-b border-white/5 pb-3 text-left"
                   >
                     {link.name}
-                  </a>
+                  </Link>
                 ))}
+              </div>
+
+              <div className="space-y-3.5">
                 <a 
-                  href="#contact" 
-                  className="w-full py-4 rounded-xl bg-indigo-600 text-white text-center font-bold"
-                  onClick={() => setIsMenuOpen(false)}
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="w-full py-3.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white text-center font-bold text-sm flex items-center justify-center gap-2"
                 >
-                  Hire Me
+                  <MessageSquare size={16} />
+                  <span>Connect WhatsApp</span>
                 </a>
+                
+                <button 
+                  onClick={handleCtaClick}
+                  className={`w-full py-3.5 rounded-xl text-white text-center font-bold text-sm shadow-md ${
+                    isPortfolio
+                      ? "bg-indigo-600 hover:bg-indigo-500 shadow-indigo-600/10"
+                      : "bg-gradient-to-r from-rose-600 to-amber-600 shadow-rose-600/10"
+                  }`}
+                >
+                  {isPortfolio ? "Connect Me" : "Get Free Quote"}
+                </button>
               </div>
             </motion.div>
           )}
@@ -119,50 +218,93 @@ const Layout = ({ children }) => {
       <main>{children}</main>
 
       {!isAdminRoute && (
-        <footer className="bg-[#0f172a] border-t border-white/10 py-12">
+        <footer className="bg-[#080d1a] border-t border-white/5 py-12 text-left print:hidden">
           <div className="max-w-7xl mx-auto px-4 md:px-8">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-12">
-              <div className="col-span-1 md:col-span-2">
-                <h3 className="text-2xl font-bold gradient-text mb-4">HAROON.DEV</h3>
-                <p className="text-slate-400 max-w-sm">
-                  Creating immersive digital experiences with modern web technologies. 
-                  Always learning, always building.
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-12 mb-12">
+              <div className="space-y-4">
+                <h3 className="text-2xl font-black bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400">
+                  HAROON.DEV
+                </h3>
+                <p className="text-slate-400 text-sm leading-relaxed font-light">
+                  Creating high-performance digital experiences and scalable full-stack assets for forward-thinking business owners.
                 </p>
               </div>
-              <div>
-                <h4 className="font-bold mb-4">Socials</h4>
-                <div className="flex space-x-4">
-                  <a href="https://github.com/haroon-web-developer" target="_blank" rel="noopener noreferrer" aria-label="GitHub" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Github size={20} /></a>
-                  <a href="https://www.linkedin.com/in/haroon-web-developer-a09217219/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Linkedin size={20} /></a>
-                  <a href="https://www.instagram.com/haroon_web_developer/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Instagram size={20} /></a>
-                  <a href="https://www.facebook.com/HaroonWebDev" target="_blank" rel="noopener noreferrer" aria-label="Facebook" className="p-2 bg-slate-800 rounded-lg hover:bg-slate-700 transition-colors"><Facebook size={20} /></a>
-                  
+              <div className="space-y-4">
+                <h4 className="font-bold text-white text-sm uppercase tracking-wider">Quick Navigation</h4>
+                <div className="flex flex-col space-y-2 text-sm text-slate-400">
+                  <Link to="/" className="hover:text-white transition">Home Page</Link>
+                  <Link to="/portfolio" className="hover:text-white transition">Core Portfolio</Link>
+                  <button onClick={scrollToQuote} className="hover:text-white transition text-left cursor-pointer">Project Estimator</button>
                 </div>
               </div>
-              <div>
-                <h4 className="font-bold mb-4">Contact</h4>
+              <div className="space-y-4">
+                <h4 className="font-bold text-white text-sm uppercase tracking-wider">Social Channels</h4>
+                <div className="flex flex-col space-y-2.5 text-sm text-slate-400">
+                  <a
+                    href="https://www.facebook.com/HaroonWebDev"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 hover:text-white transition duration-200"
+                  >
+                    <Facebook size={14} className="text-indigo-400" />
+                    <span>Facebook</span>
+                  </a>
+                  <a
+                    href="https://www.instagram.com/haroon_web_developer/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 hover:text-white transition duration-200"
+                  >
+                    <Instagram size={14} className="text-rose-400" />
+                    <span>Instagram</span>
+                  </a>
+                  <a
+                    href="https://www.linkedin.com/in/haroon-web-developer-a09217219/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 hover:text-white transition duration-200"
+                  >
+                    <Linkedin size={14} className="text-blue-400" />
+                    <span>LinkedIn</span>
+                  </a>
+                  <a
+                    href="https://github.com/haroon-web-developer"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center gap-2.5 hover:text-white transition duration-200"
+                  >
+                    <Github size={14} className="text-slate-400" />
+                    <span>GitHub</span>
+                  </a>
+                </div>
+              </div>
+              <div className="space-y-4">
+                <h4 className="font-bold text-white text-sm uppercase tracking-wider">Direct Inquiries</h4>
+                <div className="space-y-2 text-sm text-slate-400">
+                  <a
+                    href="mailto:haroonashraf.dev@gmail.com"
+                    className="flex items-center space-x-2 hover:text-white transition-colors"
+                  >
+                    <Mail size={14} className="text-indigo-400" />
+                    <span>haroonashraf.dev@gmail.com</span>
+                  </a>
 
-                {/* Email */}
-                <a
-                  href="mailto:haroonashraf.dev@gmail.com"
-                  className="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors mb-2"
-                >
-                  <Mail size={16} />
-                  <span>haroonashraf.dev@gmail.com</span>
-                </a>
-
-                {/* Phone */}
-                <a
-                  href="tel:+923214576734"
-                  className="flex items-center space-x-2 text-slate-400 hover:text-white transition-colors"
-                >
-                  <Phone size={16} />
-                  <span>+92 321 4576734</span>
-                </a>
+                  <a
+                    href="tel:+923214576734"
+                    className="flex items-center space-x-2 hover:text-white transition-colors"
+                  >
+                    <Phone size={14} className="text-rose-400" />
+                    <span>+92 321 4576734</span>
+                  </a>
+                </div>
               </div>
             </div>
-            <div className="pt-8 border-t border-white/5 text-center text-slate-500 text-sm">
-              © {new Date().getFullYear()} Haroon. All rights reserved.
+            <div className="pt-8 border-t border-white/5 text-center text-slate-500 text-xs flex flex-col sm:flex-row items-center justify-between gap-4 font-mono">
+              <span>© {new Date().getFullYear()} HAROON.DEV. All rights reserved.</span>
+              <div className="flex gap-4">
+                <a href="https://github.com/haroon-web-developer" target="_blank" rel="noreferrer" className="hover:text-white transition">GitHub</a>
+                <Link to="/admin" className="hover:text-indigo-400 transition">Admin Console</Link>
+              </div>
             </div>
           </div>
         </footer>

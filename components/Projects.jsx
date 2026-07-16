@@ -35,7 +35,7 @@ const Projects = () => {
   }, []);
 
   return (
-    <section id="projects" className="py-24 relative overflow-hidden bg-slate-950">
+    <section id="projects" className="pt-6 pb-20 md:pt-8 md:pb-24 relative overflow-hidden bg-slate-950">
       {/* Premium ambient decorative elements */}
       <div className="absolute top-1/3 left-1/2 -translate-x-1/2 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
 

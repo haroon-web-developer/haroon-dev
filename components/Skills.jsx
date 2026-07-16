@@ -24,10 +24,10 @@ const categories = {
 
 const Skills = () => {
   return (
-    <section id="skills" className="py-18 bg-slate-900/50">
+    <section id="skills" className="pt-6 pb-16 md:pt-8 md:pb-20 bg-slate-900/50">
       <div className="max-w-7xl mx-auto px-4 md:px-8">
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10">
           <h2 className="text-sm font-bold tracking-widest text-indigo-500 uppercase mb-4">Abilities</h2>
           <h3 className="text-3xl md:text-5xl font-bold">Technical Stack</h3>
         </div>
