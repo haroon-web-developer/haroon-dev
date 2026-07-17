@@ -139,7 +139,7 @@ async function startServer() {
         }
       }
     }));
-    app.get('*all', (req, res) => {
+    app.get('*', (req, res) => {
       res.sendFile(path.join(distPath, 'index.html'));
     });
   }
