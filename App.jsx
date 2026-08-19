@@ -8,6 +8,7 @@ const PortfolioPage = lazy(() => import('./components/PortfolioPage'));
 const AdminDashboard = lazy(() => import('./components/AdminDashboard'));
 const Assistant = lazy(() => import('./components/Assistant'));
 const ServiceDetailPage = lazy(() => import('./components/ServiceDetailPage'));
+const IslamabadLandingPage = lazy(() => import('./components/IslamabadLandingPage'));
 
 import ScrollToTop from './components/ScrollToTop';
 
@@ -42,6 +43,15 @@ const App = () => {
             element={
               <Suspense fallback={<div className="min-h-screen bg-[#0a0f1d] flex items-center justify-center text-indigo-400 font-mono">Loading Service Details...</div>}>
                 <ServiceDetailPage />
+              </Suspense>
+            }
+          />
+          {/* Dedicated Local Landing Page: Web Developer Islamabad */}
+          <Route
+            path="/web-developer-islamabad"
+            element={
+              <Suspense fallback={<div className="min-h-screen bg-[#0a0f1d] flex items-center justify-center text-indigo-400 font-mono">Loading Islamabad Hub...</div>}>
+                <IslamabadLandingPage />
               </Suspense>
             }
           />

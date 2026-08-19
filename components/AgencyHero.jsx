@@ -311,8 +311,8 @@ const AgencyHero = ({ onGetQuoteClick }) => {
               transition={{ duration: 0.6 }}
               className="hidden sm:inline-flex items-center self-start gap-2.5 px-4 py-2 rounded-full bg-indigo-950/40 border border-indigo-500/20 text-indigo-200 text-xs font-semibold shadow-inner"
             >
-              <Star size={13} className="text-indigo-400 fill-indigo-400/20 animate-spin-slow" />
-              <span className="tracking-wide">Islamabad's Premier Web Studio</span>
+              <Star size={13} className="text-amber-400 fill-amber-400/20 animate-spin-slow" />
+              <span className="tracking-wide">Top-Rated Web Developer in Islamabad</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </motion.div>
  
@@ -325,11 +325,11 @@ const AgencyHero = ({ onGetQuoteClick }) => {
                 className="text-[22px] xs:text-[26px] sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.15] sm:leading-[1.05]"
               >
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-400">
-                  We Build Premium,
+                  Top-Rated Web Developer
                 </span>{" "}
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400 drop-shadow-[0_2px_20px_rgba(129,140,248,0.25)]">
-                  High-Performance Web Apps.
+                  in Islamabad, Pakistan.
                 </span>
               </motion.h1>
 
@@ -339,7 +339,7 @@ const AgencyHero = ({ onGetQuoteClick }) => {
                 transition={{ duration: 0.8, delay: 0.15 }}
                 className="text-slate-300 text-base sm:text-lg md:text-xl max-w-2xl font-light leading-relaxed"
               >
-                We specialize in creating lightning-fast, secure, SEO-optimized React & MERN stack web solutions that capture leads, increase user engagement, and accelerate business growth.
+                We build lightning-fast, custom MERN stack applications, high-converting business websites, and SEO-optimized digital platforms for forward-thinking Islamabad & global enterprises.
               </motion.p>
             </div>
 
@@ -351,10 +351,10 @@ const AgencyHero = ({ onGetQuoteClick }) => {
               className="hidden sm:grid grid-cols-1 sm:grid-cols-2 gap-4 max-w-xl text-slate-300"
             >
               {[
-                { text: "Custom MERN Stack Web Apps", desc: "Tailored to scale effortlessly" },
-                { text: "Figma to Responsive Code", desc: "Pixel-perfect conversion" },
-                { text: "0.8s Ultra-Fast Load Times", desc: "Core Web Vitals optimized" },
-                { text: "SEO Schema & Conversion Ready", desc: "Built to rank on Google search" }
+                { text: "Custom MERN Stack Web Apps", desc: "React, Node.js & secure databases" },
+                { text: "In-Person Islamabad Consultations", desc: "Blue Area, F-11 & Twin Cities" },
+                { text: "0.8s Ultra-Fast Load Times", desc: "Core Web Vitals & Local SEO ready" },
+                { text: "PK Payment Gateways & COD", desc: "Bank Alfalah, JazzCash & EasyPaisa" }
               ].map((item, idx) => (
                 <div key={idx} className="flex gap-3 group">
                   <div className="flex-shrink-0 mt-1">

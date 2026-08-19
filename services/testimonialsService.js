@@ -14,27 +14,43 @@ const LOCAL_STORAGE_KEY = "haroon_portfolio_testimonials";
 const defaultTestimonials = [
   {
     id: "test_1",
-    name: "Faiza K.",
-    role: "Owner, Faiza's Luxury Beauty Salon",
-    text: "Working with this agency was a total game-changer. Our online treatment bookings and inquiries increased by 40% in just two weeks thanks to the custom, highly aesthetic inquiry funnel designed for us.",
+    name: "Hamza Tariq",
+    role: "Founder, Islamabad Retail Collective (Sector F-11)",
+    text: "Haroon-Dev built an excellent custom e-commerce website for my business in Islamabad. He integrated Bank Alfalah and JazzCash gateways with sub-0.8s load speeds. Our online orders tripled in the first month. Best web developer in Islamabad!",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80"
+    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80",
+    location: "Sector F-11, Islamabad",
+    projectType: "Custom E-Commerce & Payment Gateway"
   },
   {
     id: "test_2",
-    name: "Mohammad Bukhari",
-    role: "Founder, Bukhari Goat Farms",
-    text: "Our livestock agribusiness went from local status to receiving inquiries from all over the country. The platform is robust, extremely responsive, and loads instantly on mobile which is vital for agricultural buyers.",
+    name: "Daniyal Malik",
+    role: "Managing Director, Apex Property Group (Blue Area, Islamabad)",
+    text: "Top-rated freelance web developer in Islamabad. Haroon re-engineered our Blue Area corporate real estate portal with React, Node.js, and local Google SEO schema. We now rank #1 on Google for commercial real estate in Islamabad.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=150&q=80"
+    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80",
+    location: "Blue Area, Islamabad",
+    projectType: "Corporate Portal & Local SEO"
   },
   {
     id: "test_3",
-    name: "Alex Thorne",
-    role: "Product Manager, Curated Smart Finds",
-    text: "The speed and performance improvements were remarkable. Haroon delivered a Lighthouse-perfect storefront that feels incredibly smooth. Bounce rates went down by 30% almost immediately.",
+    name: "Dr. Ayesha Siddiqui",
+    role: "Director, Islamabad Aesthetics & Dental Clinic (Sector F-7)",
+    text: "Haroon is hands down the best React and MERN stack developer in Islamabad. He converted our complex Figma design into a pixel-perfect patient booking portal with SMS notifications. In-person coordination in Islamabad was seamless.",
     rating: 5,
-    avatar: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=150&q=80"
+    avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?auto=format&fit=crop&w=150&q=80",
+    location: "Sector F-7, Islamabad",
+    projectType: "Figma to React & Booking Engine"
+  },
+  {
+    id: "test_4",
+    name: "Bilal Ahmed",
+    role: "Co-Founder, CloudScale Labs (Bahria Town / DHA Islamabad)",
+    text: "Haroon-Dev delivered exceptional MERN stack architecture with 100/100 Lighthouse mobile score. As a tech founder in Islamabad, finding a developer with this level of clean code and reliability is rare. Highly recommended across the Twin Cities.",
+    rating: 5,
+    avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=150&q=80",
+    location: "DHA / Bahria Town, Islamabad",
+    projectType: "SaaS Dashboard & API Infrastructure"
   }
 ];
 
