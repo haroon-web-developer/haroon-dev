@@ -312,7 +312,7 @@ const AgencyHero = ({ onGetQuoteClick }) => {
               className="hidden sm:inline-flex items-center self-start gap-2.5 px-4 py-2 rounded-full bg-indigo-950/40 border border-indigo-500/20 text-indigo-200 text-xs font-semibold shadow-inner"
             >
               <Star size={13} className="text-amber-400 fill-amber-400/20 animate-spin-slow" />
-              <span className="tracking-wide">Top-Rated Web Developer in Islamabad</span>
+              <span className="tracking-wide">Islamabad's Premier Web Studio</span>
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
             </motion.div>
  
@@ -325,11 +325,11 @@ const AgencyHero = ({ onGetQuoteClick }) => {
                 className="text-[22px] xs:text-[26px] sm:text-5xl md:text-6xl font-black tracking-tight leading-[1.15] sm:leading-[1.05]"
               >
                 <span className="bg-clip-text text-transparent bg-gradient-to-b from-white via-white to-slate-400">
-                  Top-Rated Web Developer
+                   We Build Premium,
                 </span>{" "}
                 <br />
                 <span className="bg-clip-text text-transparent bg-gradient-to-r from-indigo-400 via-rose-400 to-amber-400 drop-shadow-[0_2px_20px_rgba(129,140,248,0.25)]">
-                  in Islamabad, Pakistan.
+                  High-Performance Web Apps.
                 </span>
               </motion.h1>
 
