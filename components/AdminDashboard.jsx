@@ -13,6 +13,7 @@ import { pricingService } from "../services/pricingService";
 import { testimonialsService } from "../services/testimonialsService";
 import { signInWithEmailAndPassword, signOut, onAuthStateChanged } from "firebase/auth";
 import { auth } from "../services/firebase";
+import { compressImage, fileToBase64, uploadToCloudinaryWithRetry } from "../utils/imageOptimizer";
 
 const PRESET_GRADIENTS = [
   { name: "Royal Blue", class: "from-blue-500 to-indigo-500" },
@@ -104,7 +105,7 @@ const AdminDashboard = () => {
   const [testText, setTestText] = useState("");
   const [testRating, setTestRating] = useState(5);
   const [testAvatar, setTestAvatar] = useState("");
-  
+
   // Real-time Firestore status indicator
   const [isCloudSync, setIsCloudSync] = useState(false);
 
@@ -119,45 +120,61 @@ const AdminDashboard = () => {
   const [isUploadingImage, setIsUploadingImage] = useState(false);
   const [imageUploadProgress, setImageUploadProgress] = useState("");
   const [imageUploadError, setImageUploadError] = useState("");
+  const [lastSelectedFile, setLastSelectedFile] = useState(null);
 
   const handleCloudinaryUpload = async (file) => {
     if (!file) return;
+    setLastSelectedFile(file);
     
     if (!cloudinaryCloudName || !cloudinaryUploadPreset) {
-      setImageUploadError("Cloudinary Cloud Name and Upload Preset are required. Click 'Cloudinary Credentials' to configure.");
+      setImageUploadError("Cloudinary Cloud Name and Upload Preset are required. Click 'Cloudinary Settings' to enter them, or use the 1-Click Compressed Base64 fallback.");
+      setIsCloudinaryConfigOpen(true);
       return;
     }
     
     setIsUploadingImage(true);
     setImageUploadError("");
-    setImageUploadProgress("Uploading to Cloudinary...");
-    
-    const formData = new FormData();
-    formData.append("file", file);
-    formData.append("upload_preset", cloudinaryUploadPreset);
+    setImageUploadProgress("Compressing & preparing image...");
     
     try {
-      const response = await fetch(`https://api.cloudinary.com/v1_1/${cloudinaryCloudName}/image/upload`, {
-        method: "POST",
-        body: formData,
-      });
+      const result = await uploadToCloudinaryWithRetry(
+        file,
+        cloudinaryCloudName,
+        cloudinaryUploadPreset,
+        (statusMsg) => setImageUploadProgress(statusMsg),
+        3
+      );
       
-      if (!response.ok) {
-        const errData = await response.json().catch(() => ({}));
-        throw new Error(errData.error?.message || `Server responded with status: ${response.status}`);
-      }
-      
-      const data = await response.json();
-      if (data.secure_url) {
-        setImage(data.secure_url);
+      if (result && result.url) {
+        setImage(result.url);
         setImageUploadProgress("Upload successful!");
-        setTimeout(() => setImageUploadProgress(""), 3000);
-      } else {
-        throw new Error("Invalid response format from Cloudinary.");
+        setTimeout(() => setImageUploadProgress(""), 3500);
       }
     } catch (error) {
       console.error("Cloudinary upload error:", error);
-      setImageUploadError(`Upload failed: ${error.message}`);
+      const isNetwork = error.message?.includes("Network") || error.message?.includes("fetch");
+      setImageUploadError(
+        isNetwork
+          ? `Network interrupted during upload: ${error.message}. You can retry or click 'Use Optimized Image' below.`
+          : `Upload failed: ${error.message}`
+      );
+    } finally {
+      setIsUploadingImage(false);
+    }
+  };
+
+  const handleFallbackBase64 = async () => {
+    if (!lastSelectedFile) return;
+    setIsUploadingImage(true);
+    setImageUploadProgress("Generating optimized inline image...");
+    try {
+      const base64Data = await fileToBase64(lastSelectedFile, 1280, 0.82);
+      setImage(base64Data);
+      setImageUploadError("");
+      setImageUploadProgress("Optimized image attached successfully!");
+      setTimeout(() => setImageUploadProgress(""), 3500);
+    } catch (err) {
+      setImageUploadError("Failed to convert image to base64.");
     } finally {
       setIsUploadingImage(false);
     }
@@ -763,7 +780,7 @@ const AdminDashboard = () => {
             <button 
               type="submit"
               disabled={isSubmitting}
-              className={`w-full py-3 px-4 bg-linear-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/10 cursor-pointer flex items-center justify-center space-x-2 ${
+              className={`w-full py-3 px-4 bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white font-bold rounded-xl transition-all duration-300 shadow-lg shadow-indigo-500/10 cursor-pointer flex items-center justify-center space-x-2 ${
                 isSubmitting ? "opacity-50 cursor-not-allowed" : ""
               }`}
             >
@@ -791,8 +808,8 @@ const AdminDashboard = () => {
 
   return (
     <div className="min-h-screen bg-slate-950 text-white p-4 sm:p-6 lg:p-8 relative">
-      <div className="absolute top-0 right-0 w-125 h-125 bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-125 h-125 bg-purple-500/3 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-500/5 rounded-full blur-[140px] pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-500/3 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto space-y-8 relative z-10">
         
@@ -1497,16 +1514,55 @@ const AdminDashboard = () => {
                           <div className="flex flex-col items-center space-y-1 text-center">
                             <Upload size={16} className="text-slate-400" />
                             <span className="text-[11px] text-slate-300 font-medium">Click to upload project photo</span>
-                            <span className="text-[9px] text-slate-500">Auto-uploads to Cloudinary</span>
+                            <span className="text-[9px] text-slate-500">Auto-optimizes & uploads to Cloudinary</span>
                           </div>
                         )}
                       </label>
                     </div>
 
+                    {/* Image Preview if available */}
+                    {image && (
+                      <div className="relative aspect-video rounded-xl overflow-hidden border border-white/10 bg-slate-950 flex items-center justify-center group">
+                        <img src={image} alt="Project Preview" className="w-full h-full object-cover" />
+                        <div className="absolute inset-0 bg-slate-950/60 opacity-0 group-hover:opacity-100 transition flex items-center justify-center gap-2">
+                          <button
+                            type="button"
+                            onClick={() => setImage("")}
+                            className="px-2.5 py-1 bg-red-500/80 hover:bg-red-500 text-white rounded-lg text-[10px] font-bold transition"
+                          >
+                            Remove Image
+                          </button>
+                        </div>
+                      </div>
+                    )}
+
                     {imageUploadError && (
-                      <div className="flex items-center gap-1.5 text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl leading-normal">
-                        <AlertCircle size={12} className="flex-shrink-0" />
-                        <span>{imageUploadError}</span>
+                      <div className="space-y-2">
+                        <div className="flex items-start gap-1.5 text-[10px] text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl leading-normal">
+                          <AlertCircle size={13} className="flex-shrink-0 mt-0.5" />
+                          <span>{imageUploadError}</span>
+                        </div>
+
+                        {lastSelectedFile && (
+                          <div className="flex gap-2">
+                            <button
+                              type="button"
+                              onClick={() => handleCloudinaryUpload(lastSelectedFile)}
+                              className="flex-1 py-1.5 bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                            >
+                              <RefreshCw size={10} />
+                              <span>Retry Upload</span>
+                            </button>
+                            <button
+                              type="button"
+                              onClick={handleFallbackBase64}
+                              className="flex-1 py-1.5 bg-amber-500/20 hover:bg-amber-500/30 text-amber-300 border border-amber-500/30 rounded-lg text-[10px] font-bold transition flex items-center justify-center gap-1 cursor-pointer"
+                            >
+                              <Sparkles size={10} />
+                              <span>Use Optimized Image</span>
+                            </button>
+                          </div>
+                        )}
                       </div>
                     )}
 
