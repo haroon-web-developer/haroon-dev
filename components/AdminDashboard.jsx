@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  Plus, Edit3, Trash2, ArrowLeft, Save, Sparkles, 
-  Eye, Check, ShieldAlert, LogOut, ExternalLink, RefreshCw, Star, MessageSquare,
+  Plus, Edit3, Trash2, ArrowLeft, ArrowRight, ArrowUp, ArrowDown,
+  ChevronsUp, ChevronsDown, Shuffle, Move,
+  Save, Sparkles, Eye, Check, ShieldAlert, LogOut, ExternalLink, RefreshCw, Star, MessageSquare,
   Upload, Settings, AlertCircle
 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
@@ -73,6 +74,9 @@ const AdminDashboard = () => {
   const [tags, setTags] = useState("");
   const [highlightColor, setHighlightColor] = useState("from-blue-500 to-indigo-500");
   const [featured, setFeatured] = useState(false);
+  const [placementPosition, setPlacementPosition] = useState("end"); // 'start' | 'end'
+  const [isSavingOrder, setIsSavingOrder] = useState(false);
+  const [orderSyncStatus, setOrderSyncStatus] = useState("");
 
   // 2. Stats
   const [statValue, setStatValue] = useState("");
@@ -319,6 +323,7 @@ const AdminDashboard = () => {
     setTags("React, Tailwind CSS, Framer Motion");
     setHighlightColor("from-blue-500 to-indigo-500");
     setFeatured(false);
+    setPlacementPosition("end");
     setIsFormOpen(true);
   };
 
@@ -454,8 +459,12 @@ const AdminDashboard = () => {
         const updated = await projectsService.updateProject(editingProject.id, projectPayload);
         setProjects(prev => prev.map(p => p.id === editingProject.id ? { ...p, ...updated } : p));
       } else {
-        const created = await projectsService.addProject(projectPayload);
-        setProjects(prev => [...prev, created]);
+        const created = await projectsService.addProject(projectPayload, placementPosition);
+        if (placementPosition === "start") {
+          setProjects(prev => [created, ...prev.map((p, idx) => ({ ...p, order: idx + 1 }))]);
+        } else {
+          setProjects(prev => [...prev, created]);
+        }
       }
       setIsFormOpen(false);
     } catch (error) {
@@ -463,6 +472,92 @@ const AdminDashboard = () => {
       alert("Error saving project.");
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  // 1b. Projects Directional Shuffle & Reordering Handlers
+  const handleMoveProject = async (fromIndex, toIndex) => {
+    if (
+      fromIndex === toIndex ||
+      fromIndex < 0 ||
+      toIndex < 0 ||
+      fromIndex >= projects.length ||
+      toIndex >= projects.length
+    ) {
+      return;
+    }
+
+    const updated = [...projects];
+    const [movedItem] = updated.splice(fromIndex, 1);
+    updated.splice(toIndex, 0, movedItem);
+
+    // Optimistic UI state update
+    setProjects(updated);
+    setIsSavingOrder(true);
+    setOrderSyncStatus(`Moved "${movedItem.title}" to position #${toIndex + 1}. Syncing...`);
+
+    try {
+      await projectsService.reorderProjects(updated);
+      setOrderSyncStatus(`Position synced live across all visitors!`);
+      setTimeout(() => setOrderSyncStatus(""), 3500);
+    } catch (err) {
+      console.error("Failed to sync project order:", err);
+      setOrderSyncStatus("Failed to sync order. Please check network connection.");
+    } finally {
+      setIsSavingOrder(false);
+    }
+  };
+
+  const handleMoveLeft = (index) => {
+    handleMoveProject(index, Math.max(0, index - 1));
+  };
+
+  const handleMoveRight = (index) => {
+    handleMoveProject(index, Math.min(projects.length - 1, index + 1));
+  };
+
+  const handleMoveUp = (index) => {
+    // In a 3-column desktop layout, move up 1 row (-3), or directly to top (0)
+    const target = index >= 3 ? index - 3 : 0;
+    handleMoveProject(index, target);
+  };
+
+  const handleMoveDown = (index) => {
+    // In a 3-column desktop layout, move down 1 row (+3), or directly to bottom
+    const target = index + 3 < projects.length ? index + 3 : projects.length - 1;
+    handleMoveProject(index, target);
+  };
+
+  const handleMoveToTop = (index) => {
+    handleMoveProject(index, 0);
+  };
+
+  const handleMoveToBottom = (index) => {
+    handleMoveProject(index, projects.length - 1);
+  };
+
+  const handleShuffleAll = async () => {
+    if (projects.length <= 1) return;
+    if (!window.confirm("Shuffle all projects randomly? Changes will reflect live across the portfolio for all visitors.")) return;
+
+    const shuffled = [...projects];
+    for (let i = shuffled.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+    }
+
+    setProjects(shuffled);
+    setIsSavingOrder(true);
+    setOrderSyncStatus("Randomizing and syncing positions...");
+    try {
+      await projectsService.reorderProjects(shuffled);
+      setOrderSyncStatus("Portfolio shuffled and live for all visitors!");
+      setTimeout(() => setOrderSyncStatus(""), 3500);
+    } catch (err) {
+      console.error(err);
+      setOrderSyncStatus("Shuffle failed to sync.");
+    } finally {
+      setIsSavingOrder(false);
     }
   };
 
@@ -916,6 +1011,58 @@ const AdminDashboard = () => {
         {/* Dynamic Section Contents */}
         {activeTab === "showcases" && (
           <>
+            {/* Reorder and Shuffle Toolbar */}
+            <div className="bg-[#0d1425]/70 border border-white/5 rounded-2xl p-4 sm:p-5 flex flex-col md:flex-row items-start md:items-center justify-between gap-4 text-left">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <span className="p-1.5 rounded-lg bg-indigo-500/10 text-indigo-400 border border-indigo-500/20">
+                    <Move size={14} />
+                  </span>
+                  <h3 className="text-sm sm:text-base font-bold text-white flex items-center gap-2">
+                    Portfolio Hierarchy & Position Shuffling
+                    <span className="text-[10px] font-mono font-normal text-indigo-300 bg-indigo-500/10 px-2 py-0.5 rounded-full border border-indigo-500/20">
+                      {projects.length} Showcases
+                    </span>
+                  </h3>
+                </div>
+                <p className="text-slate-400 text-xs">
+                  The sequence below directly dictates how clients see your projects on the live site. Use <span className="text-indigo-300 font-mono font-bold">←</span> / <span className="text-indigo-300 font-mono font-bold">→</span> (step left/right), <span className="text-indigo-300 font-mono font-bold">↑</span> / <span className="text-indigo-300 font-mono font-bold">↓</span> (row up/down), or the position dropdown to arrange any project.
+                </p>
+              </div>
+
+              <div className="flex items-center gap-2.5 w-full md:w-auto justify-end">
+                {orderSyncStatus && (
+                  <motion.div 
+                    initial={{ opacity: 0, scale: 0.9 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`px-3 py-1.5 rounded-xl text-xs font-semibold flex items-center gap-1.5 border shadow-sm ${
+                      isSavingOrder 
+                        ? "bg-indigo-500/10 text-indigo-300 border-indigo-500/30"
+                        : "bg-emerald-500/10 text-emerald-300 border-emerald-500/30"
+                    }`}
+                  >
+                    {isSavingOrder ? (
+                      <RefreshCw size={12} className="animate-spin text-indigo-400" />
+                    ) : (
+                      <Check size={12} className="text-emerald-400" />
+                    )}
+                    <span className="text-[11px] truncate max-w-[200px] sm:max-w-xs">{orderSyncStatus}</span>
+                  </motion.div>
+                )}
+
+                <button
+                  type="button"
+                  onClick={handleShuffleAll}
+                  disabled={isSavingOrder || projects.length <= 1}
+                  className="px-3.5 py-1.5 bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-300 border border-indigo-500/25 rounded-xl text-xs font-bold transition flex items-center gap-1.5 cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed shadow-sm"
+                  title="Randomly shuffle projects across portfolio"
+                >
+                  <Shuffle size={13} className={isSavingOrder ? "animate-spin" : ""} />
+                  <span>Smart Shuffle</span>
+                </button>
+              </div>
+            </div>
+
             {isLoading && projects.length === 0 ? (
               <div className="min-h-[400px] flex flex-col items-center justify-center space-y-4">
                 <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-indigo-500" />
@@ -923,7 +1070,7 @@ const AdminDashboard = () => {
               </div>
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {projects.map((proj) => (
+                {projects.map((proj, index) => (
                   <motion.div
                     key={proj.id}
                     layout
@@ -938,12 +1085,20 @@ const AdminDashboard = () => {
                           alt={proj.title}
                           className="w-full h-full object-cover opacity-80"
                         />
-                        <span className="absolute top-3 left-3 px-2 py-0.5 bg-slate-950/80 backdrop-blur-md text-[9px] font-black text-indigo-300 rounded-full uppercase tracking-wider border border-white/5">
-                          {proj.category}
-                        </span>
+                        
+                        {/* Position Pill */}
+                        <div className="absolute top-3 left-3 flex items-center gap-1.5">
+                          <span className="px-2.5 py-1 bg-slate-950/90 backdrop-blur-md text-[10px] font-black text-indigo-300 rounded-full border border-indigo-500/30 flex items-center gap-1 shadow-md">
+                            <Move size={10} className="text-indigo-400" />
+                            <span>#{index + 1}</span>
+                          </span>
+                          <span className="px-2 py-0.5 bg-slate-950/80 backdrop-blur-md text-[9px] font-black text-slate-400 rounded-full uppercase tracking-wider border border-white/5">
+                            {proj.category}
+                          </span>
+                        </div>
                         
                         {proj.featured && (
-                          <span className="absolute top-3 right-3 px-2 py-0.5 bg-yellow-500 text-slate-950 text-[9px] font-black rounded-full uppercase tracking-wider flex items-center space-x-0.5">
+                          <span className="absolute top-3 right-3 px-2 py-0.5 bg-yellow-500 text-slate-950 text-[9px] font-black rounded-full uppercase tracking-wider flex items-center space-x-0.5 shadow-md">
                             <Sparkles size={8} />
                             <span>Featured Hero</span>
                           </span>
@@ -952,9 +1107,11 @@ const AdminDashboard = () => {
 
                       {/* Body Content */}
                       <div className="p-5 space-y-3">
-                        <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">
-                          {proj.title}
-                        </h3>
+                        <div className="flex items-center justify-between">
+                          <h3 className="text-base font-bold text-white group-hover:text-indigo-400 transition-colors">
+                            {proj.title}
+                          </h3>
+                        </div>
                         <p className="text-slate-400 text-xs leading-relaxed line-clamp-3">
                           {proj.description}
                         </p>
@@ -969,40 +1126,133 @@ const AdminDashboard = () => {
                       </div>
                     </div>
 
-                    {/* Actions Footer */}
-                    <div className="p-4 bg-slate-900/40 border-t border-white/5 flex items-center justify-between">
-                      <span className="text-[10px] text-slate-500 font-mono max-w-[120px] truncate" title={proj.id}>
-                        ID: {proj.id.substring(0, 8)}...
-                      </span>
-                      
-                      <div className="flex items-center space-x-2">
-                        {proj.link && proj.link !== "#" && (
-                          <a 
-                            href={proj.link} 
-                            target="_blank" 
-                            rel="noreferrer" 
-                            className="p-1.5 bg-slate-900 border border-white/5 rounded-lg text-slate-400 hover:text-indigo-400 transition"
-                            title="Open Live App"
+                    <div>
+                      {/* Directional Shuffle & Ordering Bar */}
+                      <div className="px-3.5 py-2.5 bg-slate-950/80 border-t border-b border-white/5 flex flex-wrap items-center justify-between gap-2 select-none">
+                        <div className="flex items-center gap-1">
+                          <span className="text-[9px] text-slate-500 font-mono uppercase tracking-wider font-bold mr-1">
+                            Shuffle:
+                          </span>
+                          {/* Move Left */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveLeft(index)}
+                            disabled={index === 0 || isSavingOrder}
+                            className="p-1.5 rounded-lg bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 hover:border-indigo-500/30 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move Left (1 position earlier)"
                           >
-                            <ExternalLink size={13} />
-                          </a>
-                        )}
+                            <ArrowLeft size={11} />
+                          </button>
+
+                          {/* Move Right */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveRight(index)}
+                            disabled={index === projects.length - 1 || isSavingOrder}
+                            className="p-1.5 rounded-lg bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 hover:border-indigo-500/30 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move Right (1 position later)"
+                          >
+                            <ArrowRight size={11} />
+                          </button>
+
+                          {/* Move Up 1 Row */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveUp(index)}
+                            disabled={index === 0 || isSavingOrder}
+                            className="p-1.5 rounded-lg bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 hover:border-indigo-500/30 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move Up (1 row up)"
+                          >
+                            <ArrowUp size={11} />
+                          </button>
+
+                          {/* Move Down 1 Row */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveDown(index)}
+                            disabled={index === projects.length - 1 || isSavingOrder}
+                            className="p-1.5 rounded-lg bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 hover:border-indigo-500/30 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Move Down (1 row down)"
+                          >
+                            <ArrowDown size={11} />
+                          </button>
+                        </div>
+
+                        {/* Direct Position Jump */}
+                        <div className="flex items-center gap-1.5">
+                          <span className="text-[9px] text-slate-500 font-mono">Pos:</span>
+                          <select
+                            value={index}
+                            onChange={(e) => handleMoveProject(index, Number(e.target.value))}
+                            disabled={isSavingOrder}
+                            className="bg-slate-900 border border-white/10 text-indigo-300 text-[10px] font-mono font-bold rounded-md px-1.5 py-1 focus:outline-none focus:border-indigo-500/50 cursor-pointer disabled:opacity-40"
+                          >
+                            {projects.map((_, pIdx) => (
+                              <option key={pIdx} value={pIdx} className="bg-slate-900 text-white">
+                                #{pIdx + 1} {pIdx === 0 ? "★ Top" : pIdx === projects.length - 1 ? "⤓ End" : ""}
+                              </option>
+                            ))}
+                          </select>
+
+                          {/* Move directly to Top */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveToTop(index)}
+                            disabled={index === 0 || isSavingOrder}
+                            className="p-1 rounded-md bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Jump directly to Top (#1)"
+                          >
+                            <ChevronsUp size={11} />
+                          </button>
+
+                          {/* Move directly to Bottom */}
+                          <button
+                            type="button"
+                            onClick={() => handleMoveToBottom(index)}
+                            disabled={index === projects.length - 1 || isSavingOrder}
+                            className="p-1 rounded-md bg-slate-900 hover:bg-indigo-500/20 text-slate-400 hover:text-indigo-300 border border-white/5 transition cursor-pointer disabled:opacity-30 disabled:cursor-not-allowed"
+                            title="Jump directly to End"
+                          >
+                            <ChevronsDown size={11} />
+                          </button>
+                        </div>
+                      </div>
+
+                      {/* Actions Footer */}
+                      <div className="p-4 bg-slate-900/40 flex items-center justify-between">
+                        <span className="text-[10px] text-slate-500 font-mono max-w-[120px] truncate" title={proj.id}>
+                          Order: #{index + 1}
+                        </span>
                         
-                        <button
-                          onClick={() => handleOpenEdit(proj)}
-                          className="p-1.5 bg-indigo-500/10 hover:bg-indigo-500/25 text-indigo-400 rounded-lg transition border border-indigo-500/20 cursor-pointer"
-                          title="Edit Details"
-                        >
-                          <Edit3 size={13} />
-                        </button>
-                        
-                        <button
-                          onClick={() => handleDelete(proj.id, proj.title)}
-                          className="p-1.5 bg-red-500/10 hover:bg-red-500/25 text-red-400 rounded-lg transition border border-red-500/20 cursor-pointer"
-                          title="Remove Project"
-                        >
-                          <Trash2 size={13} />
-                        </button>
+                        <div className="flex items-center space-x-2">
+                          {proj.link && proj.link !== "#" && (
+                            <a 
+                              href={proj.link} 
+                              target="_blank" 
+                              rel="noreferrer" 
+                              className="p-1.5 bg-slate-900 border border-white/5 rounded-lg text-slate-400 hover:text-indigo-400 transition"
+                              title="Open Live App"
+                            >
+                              <ExternalLink size={13} />
+                            </a>
+                          )}
+                          
+                          <button
+                            onClick={() => handleOpenEdit(proj)}
+                            className="p-1.5 bg-indigo-500/10 hover:bg-indigo-500/25 text-indigo-400 rounded-lg transition border border-indigo-500/20 cursor-pointer"
+                            title="Edit Details"
+                          >
+                            <Edit3 size={13} />
+                          </button>
+                          
+                          <button
+                            onClick={() => handleDelete(proj.id, proj.title)}
+                            className="p-1.5 bg-red-500/10 hover:bg-red-500/25 text-red-400 rounded-lg transition border border-red-500/20 cursor-pointer"
+                            title="Remove Project"
+                          >
+                            <Trash2 size={13} />
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </motion.div>
@@ -1611,6 +1861,41 @@ const AdminDashboard = () => {
                       Feature on Hero 3D Showcase (recommended for top products)
                     </label>
                   </div>
+
+                  {/* Initial Position option when creating a new project */}
+                  {!editingProject && (
+                    <div className="space-y-1.5 p-3 bg-indigo-500/5 border border-indigo-500/15 rounded-xl">
+                      <label className="text-[10px] text-indigo-300 font-mono uppercase tracking-wider block font-bold">
+                        Initial Placement in Portfolio
+                      </label>
+                      <div className="grid grid-cols-2 gap-2">
+                        <button
+                          type="button"
+                          onClick={() => setPlacementPosition("start")}
+                          className={`px-3 py-2 rounded-xl text-xs font-semibold border transition text-left cursor-pointer ${
+                            placementPosition === "start"
+                              ? "bg-indigo-500/20 border-indigo-400 text-white"
+                              : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                          }`}
+                        >
+                          <span className="block font-bold">⭐ Top (Position #1)</span>
+                          <span className="text-[10px] text-slate-500 block">First showcase visitors see</span>
+                        </button>
+                        <button
+                          type="button"
+                          onClick={() => setPlacementPosition("end")}
+                          className={`px-3 py-2 rounded-xl text-xs font-semibold border transition text-left cursor-pointer ${
+                            placementPosition === "end"
+                              ? "bg-indigo-500/20 border-indigo-400 text-white"
+                              : "bg-slate-900 border-white/5 text-slate-400 hover:text-white"
+                          }`}
+                        >
+                          <span className="block font-bold">📋 End (Position #{projects.length + 1})</span>
+                          <span className="text-[10px] text-slate-500 block">Add to bottom of portfolio</span>
+                        </button>
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="col-span-1 md:col-span-2 pt-4 border-t border-white/5 flex items-center justify-end gap-3">

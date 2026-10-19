@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ArrowRight, Terminal, Library, ChevronRight, ChevronLeft, Zap, Trophy, ShieldCheck, Users } from 'lucide-react';
-import { projects } from '../services/projectsData';
+import { ArrowRight, Terminal, Library, ChevronRight, ChevronLeft, Zap, Trophy, ShieldCheck, Users, ExternalLink } from 'lucide-react';
+import { projects } from './projectsData';
 import { projectsService } from '../services/projectsService';
 
 const getProjectBookStyles = (proj) => {
@@ -162,17 +162,14 @@ const Hero = () => {
   const [dragDistance, setDragDistance] = useState(0);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Load from projectsService
+  // Live load from projectsService
   useEffect(() => {
-    let active = true;
-    projectsService.getProjects().then((allProjects) => {
-      if (active) {
-        const featured = allProjects.filter(p => p.featured);
-        setFeaturedProjects(featured);
-      }
+    const unsubscribe = projectsService.subscribeProjects((allProjects) => {
+      const featured = allProjects.filter(p => p.featured);
+      setFeaturedProjects(featured);
     });
     return () => {
-      active = false;
+      if (typeof unsubscribe === "function") unsubscribe();
     };
   }, []);
 
@@ -569,31 +566,84 @@ const Hero = () => {
                           {proj.category}
                         </span>
                         <div className="flex items-center space-x-1">
-                          <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
-                          <span className="text-[7.5px] xs:text-[8.5px] sm:text-[8px] md:text-[10px] xl:text-xs font-mono text-white/30">
-                            LIVE
-                          </span>
+                          {proj.link && proj.link !== "#" ? (
+                            <a
+                              href={proj.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="inline-flex items-center space-x-1 px-1.5 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400 hover:bg-emerald-500/30 border border-emerald-500/30 text-[7.5px] xs:text-[8.5px] sm:text-[8px] md:text-[10px] xl:text-xs font-mono transition-colors"
+                              title="Open Live App"
+                            >
+                              <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+                              <span>LAUNCH</span>
+                              <ExternalLink size={9} />
+                            </a>
+                          ) : (
+                            <>
+                              <span className="w-1 sm:w-1.5 h-1 sm:h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+                              <span className="text-[7.5px] xs:text-[8.5px] sm:text-[8px] md:text-[10px] xl:text-xs font-mono text-white/30">
+                                LIVE
+                              </span>
+                            </>
+                          )}
                         </div>
                       </div>
 
                       {/* Visual Project Cover Image (Simulating beautiful gold foil frame and black passe-partout in widescreen ratio) */}
-                      <div className="my-1 sm:my-1.5 md:my-2 aspect-[2.2] md:aspect-[1.65] lg:aspect-[1.6] xl:aspect-[1.5] w-full rounded-md md:rounded-lg overflow-hidden border border-amber-400/30 p-1 bg-black/40 relative shadow-inner group grow">
-                        <div className="w-full h-full rounded-sm md:rounded-md overflow-hidden relative">
-                          <img
-                            src={proj.image}
-                            alt={proj.title}
-                            loading="eager"
-                            decoding="async"
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                          />
-                          <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
+                      {proj.link && proj.link !== "#" ? (
+                        <a
+                          href={proj.link}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          onClick={(e) => e.stopPropagation()}
+                          className="my-1 sm:my-1.5 md:my-2 aspect-[2.2] md:aspect-[1.65] lg:aspect-[1.6] xl:aspect-[1.5] w-full rounded-md md:rounded-lg overflow-hidden border border-amber-400/30 p-1 bg-black/40 relative shadow-inner group grow block cursor-pointer"
+                          title={`Launch ${proj.title}`}
+                        >
+                          <div className="w-full h-full rounded-sm md:rounded-md overflow-hidden relative">
+                            <img
+                              src={proj.image}
+                              alt={proj.title}
+                              loading="eager"
+                              decoding="async"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
+                          </div>
+                        </a>
+                      ) : (
+                        <div className="my-1 sm:my-1.5 md:my-2 aspect-[2.2] md:aspect-[1.65] lg:aspect-[1.6] xl:aspect-[1.5] w-full rounded-md md:rounded-lg overflow-hidden border border-amber-400/30 p-1 bg-black/40 relative shadow-inner group grow">
+                          <div className="w-full h-full rounded-sm md:rounded-md overflow-hidden relative">
+                            <img
+                              src={proj.image}
+                              alt={proj.title}
+                              loading="eager"
+                              decoding="async"
+                              className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                            />
+                            <div className="absolute inset-0 bg-linear-to-t from-slate-950/90 via-transparent to-transparent pointer-events-none" />
+                          </div>
                         </div>
-                      </div>
+                      )}
 
                       {/* Description & Title with Gold/Silver theme */}
                       <div className="space-y-0.5 sm:space-y-1 md:space-y-1.5">
                         <h3 className="text-[11.5px] xs:text-[13px] sm:text-xs md:text-sm lg:text-base xl:text-lg font-extrabold text-white tracking-tight leading-none sm:leading-snug">
-                          {proj.title}
+                          {proj.link && proj.link !== "#" ? (
+                            <a
+                              href={proj.link}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              onClick={(e) => e.stopPropagation()}
+                              className="hover:text-amber-300 transition-colors inline-flex items-center gap-1.5 group/booktitle"
+                              title={`Open ${proj.title}`}
+                            >
+                              <span>{proj.title}</span>
+                              <ExternalLink size={12} className="opacity-60 group-hover/booktitle:opacity-100 transition-opacity" />
+                            </a>
+                          ) : (
+                            proj.title
+                          )}
                         </h3>
                         <p className="text-[9px] xs:text-[10.5px] sm:text-[10px] md:text-[11px] lg:text-xs text-slate-300 leading-normal line-clamp-1 sm:line-clamp-2 md:line-clamp-2 lg:line-clamp-2 font-light">
                           {proj.description}

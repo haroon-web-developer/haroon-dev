@@ -9,6 +9,7 @@ export const projects = [
     link: "https://smart-finds.vercel.app/",
     highlightColor: "from-blue-500 to-indigo-500",
     featured: true,
+    order: 0,
     color: "from-[#070b12] via-[#091833] to-[#0f2e5c]",
     spineColor: "bg-[#0b1a33]",
     accentColor: "text-blue-400",
@@ -24,7 +25,8 @@ export const projects = [
     tags: ["React", "Tailwind CSS", "Modern UI"],
     link: "https://faiza-s-beauty-salon.vercel.app/",
     highlightColor: "from-purple-500 to-pink-500",
-    featured: false
+    featured: false,
+    order: 1
   },
   {
     id: "3",
@@ -36,6 +38,7 @@ export const projects = [
     link: "https://trendwave-store.vercel.app/",
     highlightColor: "from-rose-500 to-pink-500",
     featured: true,
+    order: 2,
     color: "from-slate-950 via-[#3d081b] to-[#6e0d30]",
     spineColor: "bg-[#38091c]",
     accentColor: "text-rose-400",
@@ -52,6 +55,7 @@ export const projects = [
     link: "https://lms-wqmc.vercel.app/",
     highlightColor: "from-indigo-500 to-violet-500",
     featured: true,
+    order: 3,
     color: "from-slate-900 via-indigo-950/90 to-[#220d33]",
     spineColor: "bg-[#18123c]",
     accentColor: "text-indigo-400",
@@ -68,6 +72,7 @@ export const projects = [
     link: "https://bukhari-farm.vercel.app/",
     highlightColor: "from-emerald-500 to-teal-500",
     featured: true,
+    order: 4,
     color: "from-[#02080a] via-[#043325] to-[#0d4a2d]",
     spineColor: "bg-[#052b20]",
     accentColor: "text-emerald-400",
@@ -81,8 +86,9 @@ export const projects = [
     description: "A professional metrics dashboard constructed with crisp graphs, tracking KPIs, revenue streams, active cohorts, and interactive server log monitors.",
     image: "https://images.unsplash.com/photo-1553877522-43269d4ea984?auto=format&fit=crop&w=600&q=70&fm=webp",
     tags: ["React", "CSS Modules", "ChartJS"],
-    link: "#",
+    link: "https://smart-finds.vercel.app/",
     highlightColor: "from-amber-500 to-orange-500",
-    featured: false
+    featured: false,
+    order: 5
   }
 ];
