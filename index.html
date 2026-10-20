@@ -4,6 +4,66 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
+  <!-- Runtime Environment & Extension Safeguards -->
+  <script>
+    (function() {
+      // 1. Ensure window.fetch is writable and configurable with both getter & setter
+      // Prevents browser extensions (e.g. frame_ant, video downloaders, IDM) from throwing
+      // "TypeError: Cannot set property fetch of #<Window> which has only a getter"
+      try {
+        var _nativeFetch = window.fetch ? window.fetch.bind(window) : null;
+        var _currentFetch = _nativeFetch;
+        Object.defineProperty(window, 'fetch', {
+          get: function() {
+            return _currentFetch || _nativeFetch;
+          },
+          set: function(customFetch) {
+            _currentFetch = typeof customFetch === 'function' ? customFetch : _nativeFetch;
+          },
+          configurable: true,
+          enumerable: true
+        });
+      } catch (e) {
+        // Fallback gracefully if window.fetch cannot be redefined
+      }
+
+      // 2. Intercept uncaught extension script errors before they bubble up
+      window.addEventListener('error', function(event) {
+        try {
+          var filename = (event.filename || '') + '';
+          var msg = (event.message || '') + '';
+          if (
+            filename.indexOf('chrome-extension://') !== -1 ||
+            filename.indexOf('moz-extension://') !== -1 ||
+            filename.indexOf('extension') !== -1 ||
+            msg.indexOf('Cannot set property fetch') !== -1 ||
+            msg.indexOf('frame_ant') !== -1
+          ) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+            return true;
+          }
+        } catch (err) {}
+      }, true);
+
+      // 3. Catch unhandled promise rejections from extension scripts
+      window.addEventListener('unhandledrejection', function(event) {
+        try {
+          var reason = event.reason ? ((event.reason.stack || event.reason.message || event.reason) + '') : '';
+          if (
+            reason.indexOf('chrome-extension://') !== -1 ||
+            reason.indexOf('moz-extension://') !== -1 ||
+            reason.indexOf('Cannot set property fetch') !== -1 ||
+            reason.indexOf('frame_ant') !== -1
+          ) {
+            event.stopImmediatePropagation();
+            event.preventDefault();
+          }
+        } catch (err) {}
+      }, true);
+    })();
+  </script>
+
   <!-- Primary Meta Tags -->
   <title>Top-Rated Web Developer in Islamabad | Haroon Dev</title>
   <meta name="title" content="Top-Rated Web Developer in Islamabad | Haroon Dev">
