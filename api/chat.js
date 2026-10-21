@@ -1,51 +1,68 @@
 import { GoogleGenAI } from "@google/genai";
+import { projects as defaultProjects } from "../services/projectsData.js";
 
-const HAROON_KNOWLEDGE = `
-Haroon Ashraf is a talented Front-End and Full-Stack Web Developer & Freelancer specializing in building lightning-fast, high-converting websites and scalable web applications.
+// Helper to format projects into clean, structured prompt context
+function formatProjectsForSystem(projectsList) {
+  if (!Array.isArray(projectsList) || projectsList.length === 0) {
+    return "No projects registered currently.";
+  }
+  return projectsList.map((p, idx) => {
+    const tags = Array.isArray(p.tags) ? p.tags.join(", ") : (p.tags || "");
+    const liveLink = p.link || p.url || "#projects";
+    return `${idx + 1}. [${p.title}](${liveLink}) (${p.category || 'Web Application'})
+   - Description: ${p.description || ''}
+   - Tech Stack: ${tags}
+   - Live URL: ${liveLink}
+   - Featured: ${p.featured ? 'Yes' : 'No'}`;
+  }).join("\n\n");
+}
 
-KEY CAPABILITIES:
-- Frontend: React, TypeScript, Tailwind CSS, Framer Motion, HTML5, Modern CSS, Responsive Mobile-First Design.
-- Full-Stack / Backend: Node.js, Express, MongoDB (MERN Stack), REST APIs, Firebase.
-- Performance & SEO: Sub-second load speeds (< 0.8s), 95+ Google PageSpeed / Core Web Vitals, SEO architecture, asset optimization.
-- Custom Web Apps & E-Commerce: High-converting landing pages, SaaS dashboards, e-commerce storefronts with direct WhatsApp checkout or Stripe integration.
+function buildSystemInstruction(activeProjects) {
+  const formattedProjects = formatProjectsForSystem(activeProjects);
 
-PORTFOLIO HIGHLIGHTS:
-1. Curated Smart Finds (https://smart-finds.vercel.app/): High-speed gadget e-commerce platform engineered for peak conversions.
-2. Trendwave Store (https://trendwave-store.vercel.app/): Modern apparel storefront featuring rapid 1-click WhatsApp order processing.
-3. E-Learning Hub SaaS (https://lms-wqmc.vercel.app/): Full-featured LMS platform with automated student certificate generation.
-4. Bukhari Farms Portal (https://bukhari-farm.vercel.app/): Modern agricultural inventory and secure sales ledger application.
-
-CONTACT & HIRING DETAILS:
-- WhatsApp: +92 321 4576734 (Direct chat: https://api.whatsapp.com/send?phone=923214576734)
-- Email: haroonashraf.dev@gmail.com
-- Availability: Open for freelance projects, custom web application contracts, website redesigns/speed boosts, and full-time MERN developer roles.
-- Collaboration: Works with international clients across US, UK, Middle East, and globally. Offers free consultations and personalized proposals within minutes.
-`;
-
-const SYSTEM_INSTRUCTION = `You are "Haroon's Bot", the smart, warm, and highly capable AI Project Consultant on Haroon Ashraf's official portfolio website.
+  return `You are "Haroon's Bot", the smart, warm, and highly capable AI Project Consultant on Haroon Ashraf's official portfolio website.
 
 YOUR ROLE & GOALS:
 1. Act as a natural, friendly, human-like technical representative. Speak conversationally—like a knowledgeable project manager or lead developer on Haroon's team.
-2. Actively listen to what the client tells you. Understand their specific goals (e.g. building an online store, redesigning a sluggish website, launching a SaaS MVP, or exploring tech stacks).
+2. Actively listen to what the client tells you. Understand their specific goals (e.g. building an online store, booking salon website, agricultural portal, SaaS dashboard, redesigning a sluggish website, or exploring tech stacks).
 3. Provide genuine, intelligent technical insight rather than generic filler. If they ask about speed, explain how Haroon optimizes assets and code for <0.8s load times. If they ask about e-commerce, discuss UX, fast checkouts, and mobile responsiveness.
 4. Multi-turn Memory: Remember details the client provides (their name, project type, timeline, or pain points) across the conversation and refer back to them naturally.
-5. ANTI-REPETITION (CRITICAL):
-   - Do NOT repeat the same boilerplate sentences or phrases.
-   - Do NOT spam the WhatsApp link in every message. Introduce WhatsApp or email when it naturally makes sense—such as when the user asks about pricing, timeline, hiring, getting a quote, or indicates they're ready to start.
-   - Vary your wording and tone dynamically.
-6. Keep responses concise, structured, and easy to read (typically 2 to 4 sentences or a few crisp bullet points).
-7. Format with clean Markdown (bolding for key concepts, bullet lists when comparing features or listing steps).
-8. When sharing contact links, use standard markdown:
-   [Chat with Haroon on WhatsApp](https://api.whatsapp.com/send?phone=923214576734&text=Hi%20Haroon%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.)
+
+STRICT PROJECT ACCURACY & NO DUMMY PROJECTS (CRITICAL MANDATE):
+- When any client asks about Haroon's projects, portfolio, past work, case studies, or live demos:
+  YOU MUST ONLY RECOMMEND AND SHOW THE REAL PROJECTS LISTED IN "CURRENT VERIFIED PROJECTS" BELOW.
+- NEVER invent, hallucinate, or mention fake/dummy/mock projects (such as mock food delivery apps, fake crypto trackers, or placeholder projects).
+- Present the real projects with their actual titles, descriptions, categories, and markdown links [Project Title](link).
+- If they ask for a specific category (e.g. "Do you have e-commerce projects?", "Show me salon websites", "What SaaS or education apps has he built?"):
+  Highlight the exact matching real project from the list below.
+- If they ask to see all or top projects:
+  Present 3 to 4 of the featured ones clearly with clickable markdown links, and mention that they can explore the rest directly in the Projects section.
+
+CURRENT VERIFIED PROJECTS (From Haroon's Projects Section):
+${formattedProjects}
+
+ANTI-REPETITION & CONVERSATIONAL STYLE:
+- Do NOT repeat the same boilerplate sentences or phrases.
+- Do NOT spam the WhatsApp link in every message. Introduce WhatsApp or email when it naturally makes sense—such as when the user asks about pricing, timeline, hiring, getting a quote, or indicates they're ready to start.
+- Vary your wording and tone dynamically.
+- Keep responses concise, structured, and easy to read (typically 2 to 4 sentences or a few crisp bullet points).
+- Format with clean Markdown (bolding for key concepts, bullet lists when comparing features or listing steps).
+- When sharing contact links, use standard markdown:
+  [Chat with Haroon on WhatsApp](https://api.whatsapp.com/send?phone=923214576734&text=Hi%20Haroon%2C%20I%20visited%20your%20portfolio%20and%20would%20like%20to%20discuss%20a%20project.)
 
 Context about Haroon:
-${HAROON_KNOWLEDGE}`;
+- Full-Stack & Frontend Web Developer (React, TypeScript, Tailwind CSS, Framer Motion, Node.js, Express, MongoDB, MERN Stack).
+- Speed & SEO: Sub-second load speeds (< 0.8s), 95+ Google PageSpeed / Core Web Vitals.
+- Contact: WhatsApp +92 321 4576734, Email: haroonashraf.dev@gmail.com.
+- Available for international freelance projects, contract roles, and full-time MERN development.`;
+}
 
 // Intelligent multi-turn offline responder for resilience
-function generateContextualOfflineResponse(userPrompt, history = []) {
+function generateContextualOfflineResponse(userPrompt, history = [], activeProjects = defaultProjects) {
   const p = (userPrompt || "").toLowerCase().trim();
   const historyText = history.map(h => (h.content || "").toLowerCase()).join(" ");
   const isFollowUp = history.length > 1;
+  const list = (Array.isArray(activeProjects) && activeProjects.length > 0) ? activeProjects : defaultProjects;
 
   // Contact / WhatsApp / Hire intent
   if (p.includes("contact") || p.includes("whatsapp") || p.includes("hire") || p.includes("phone") || p.includes("email") || p.includes("talk to haroon") || p.includes("reach")) {
@@ -77,16 +94,30 @@ To give you an accurate estimate, what core features or pages do you envision fo
 [Discuss Pricing with Haroon](https://api.whatsapp.com/send?phone=923214576734&text=Hi%20Haroon%2C%20I%27d%20like%20to%20get%20a%20quick%20quote%20for%20a%20web%20project.)`;
   }
 
-  // Portfolio / Projects intent
-  if (p.includes("project") || p.includes("portfolio") || p.includes("work") || p.includes("sample") || p.includes("example") || p.includes("case study")) {
-    return `Here are four of Haroon's featured production builds:
+  // Portfolio / Projects intent - Strictly only real projects from Haroon's portfolio
+  if (p.includes("project") || p.includes("portfolio") || p.includes("work") || p.includes("sample") || p.includes("example") || p.includes("case study") || p.includes("demo") || p.includes("site") || p.includes("show me")) {
+    let matched = [];
+    if (p.includes("salon") || p.includes("beauty") || p.includes("hair")) {
+      matched = list.filter(item => (item.category || "").toLowerCase().includes("salon") || (item.title || "").toLowerCase().includes("salon") || (item.title || "").toLowerCase().includes("beauty"));
+    } else if (p.includes("ecommerce") || p.includes("e-commerce") || p.includes("store") || p.includes("shop") || p.includes("gadget") || p.includes("cloth")) {
+      matched = list.filter(item => (item.category || "").toLowerCase().includes("commerce") || (item.title || "").toLowerCase().includes("store") || (item.title || "").toLowerCase().includes("finds"));
+    } else if (p.includes("saas") || p.includes("lms") || p.includes("learn") || p.includes("course") || p.includes("education")) {
+      matched = list.filter(item => (item.category || "").toLowerCase().includes("saas") || (item.category || "").toLowerCase().includes("tech") || (item.category || "").toLowerCase().includes("education") || (item.title || "").toLowerCase().includes("learning"));
+    } else if (p.includes("farm") || p.includes("agri") || p.includes("goat") || p.includes("livestock")) {
+      matched = list.filter(item => (item.category || "").toLowerCase().includes("agri") || (item.title || "").toLowerCase().includes("farm"));
+    } else if (p.includes("analytic") || p.includes("dashboard") || p.includes("insight")) {
+      matched = list.filter(item => (item.category || "").toLowerCase().includes("analytic") || (item.title || "").toLowerCase().includes("insight") || (item.title || "").toLowerCase().includes("board"));
+    }
 
-1. **[Curated Smart Finds](https://smart-finds.vercel.app/)** — Ultra-fast gadget e-commerce store with high-conversion product UX.
-2. **[Trendwave Store](https://trendwave-store.vercel.app/)** — Modern fashion storefront with instantaneous 1-click WhatsApp checkout.
-3. **[E-Learning Hub SaaS](https://lms-wqmc.vercel.app/)** — Full-stack educational portal with automated certificate generation.
-4. **[Bukhari Farms Portal](https://bukhari-farm.vercel.app/)** — Clean agricultural dashboard and secure sales transaction records.
+    const projectsToShow = matched.length > 0 ? matched : list.slice(0, 4);
 
-Which type of project aligns closest with what you are looking to build?`;
+    const formattedList = projectsToShow.map((proj, idx) => {
+      const url = proj.link || proj.url || "#projects";
+      const tags = Array.isArray(proj.tags) ? ` *(${proj.tags.slice(0, 3).join(", ")})*` : "";
+      return `${idx + 1}. **[${proj.title}](${url})** — ${proj.description || ''}${tags}`;
+    }).join("\n");
+
+    return `Here are the real, live projects currently featured on Haroon's portfolio:\n\n${formattedList}\n\nWould you like more details on any of these, or would you like to discuss building something similar for your business?`;
   }
 
   // Speed / Performance / SEO intent
@@ -172,14 +203,19 @@ export default async function handler(req, res) {
     }
   }
 
-  const { prompt, history = [] } = body || {};
+  const { prompt, history = [], projects = [] } = body || {};
   if (!prompt || typeof prompt !== 'string' || prompt.trim() === '') {
     return res.status(400).json({ error: 'Prompt is required' });
   }
 
+  // Resolve active projects: prefer payload from frontend, fallback to canonical defaultProjects
+  const activeProjects = (Array.isArray(projects) && projects.length > 0)
+    ? projects
+    : defaultProjects;
+
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey || apiKey === "undefined" || apiKey === "null" || apiKey.trim() === "") {
-    return res.status(200).json({ text: generateContextualOfflineResponse(prompt, history) });
+    return res.status(200).json({ text: generateContextualOfflineResponse(prompt, history, activeProjects) });
   }
 
   try {
@@ -223,19 +259,20 @@ export default async function handler(req, res) {
       model: 'gemini-3.5-flash-lite',
       contents: contents,
       config: {
-        systemInstruction: SYSTEM_INSTRUCTION,
+        systemInstruction: buildSystemInstruction(activeProjects),
         temperature: 0.7,
         maxOutputTokens: 400,
       },
     });
 
     const response = await Promise.race([apiCallPromise, timeoutPromise]);
-    const text = response.text?.trim() || generateContextualOfflineResponse(prompt, history);
+    const text = response.text?.trim() || generateContextualOfflineResponse(prompt, history, activeProjects);
 
     return res.status(200).json({ text });
   } catch (error) {
     console.error("Gemini API Error in /api/chat (using contextual fallback):", error?.message || error);
-    return res.status(200).json({ text: generateContextualOfflineResponse(prompt, history) });
+    return res.status(200).json({ text: generateContextualOfflineResponse(prompt, history, activeProjects) });
   }
 }
+
 

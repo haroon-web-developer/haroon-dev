@@ -1,7 +1,9 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { MessageCircle, X, Send, Bot, RotateCcw, ExternalLink, Sparkles } from 'lucide-react';
+import { MessageCircle, X, Send, Bot, RotateCcw, ExternalLink } from 'lucide-react';
 import { chatWithAssistant } from '../services/geminiService';
+import { projects as defaultProjects } from '../services/projectsData';
+import { projectsService } from '../services/projectsService';
 
 const SUGGESTIONS = [
   "🚀 Need a high-performance website",
@@ -118,7 +120,7 @@ const renderMessageContent = (content) => {
 
 const INITIAL_MESSAGE = {
   role: 'assistant',
-  content: "Hi there! 👋 I'm Haroon's AI representative.\n\nHaroon is a web developer specializing in ultra-fast React websites, conversion-driven web apps, and modern MERN stack solutions.\n\nWhether you need a new website built, an existing store optimized for sales, or want to explore ideas, I'm here to help! What kind of project are you looking to launch?"
+  content: "Hi there! 👋 I'm Haroon's representative.\n\nHaroon is a web developer specializing in ultra-fast React websites, conversion-driven web apps, and modern MERN stack solutions.\n\nWhether you need a new website built, an existing store optimized for sales, or want to explore ideas, I'm here to help! What kind of project are you looking to launch?"
 };
 
 const Assistant = () => {
@@ -126,7 +128,20 @@ const Assistant = () => {
   const [messages, setMessages] = useState([INITIAL_MESSAGE]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [activeProjects, setActiveProjects] = useState(defaultProjects);
   const scrollRef = useRef(null);
+
+  useEffect(() => {
+    // Keep active projects strictly synchronized with the projects section and any future updates
+    const unsubscribe = projectsService.subscribeProjects((list) => {
+      if (Array.isArray(list) && list.length > 0) {
+        setActiveProjects(list);
+      }
+    });
+    return () => {
+      if (typeof unsubscribe === 'function') unsubscribe();
+    };
+  }, []);
 
   useEffect(() => {
     if (scrollRef.current) {
@@ -146,8 +161,8 @@ const Assistant = () => {
     setIsLoading(true);
 
     try {
-      // Pass the conversation history so the AI remembers previous context
-      const response = await chatWithAssistant(promptToSend, messages);
+      // Pass the conversation history AND the live active projects from the projects section
+      const response = await chatWithAssistant(promptToSend, messages, activeProjects);
       setMessages(prev => [...prev, { role: 'assistant', content: response }]);
     } catch (err) {
       console.error("Error communicating with assistant:", err);
@@ -189,13 +204,11 @@ const Assistant = () => {
                   <span className="absolute -bottom-0.5 -right-0.5 w-3 h-3 bg-emerald-400 border-2 border-indigo-700 rounded-full" />
                 </div>
                 <div>
-                  <div className="flex items-center gap-1.5">
-                    <h4 className="text-white font-bold text-sm tracking-tight">Haroon's Bot</h4>
-                    <span className="bg-white/20 text-white text-[9px] font-semibold px-1.5 py-0.5 rounded-full flex items-center gap-0.5">
-                      <Sparkles size={8} /> AI
-                    </span>
-                  </div>
-                  <p className="text-indigo-200/80 text-[10px] font-medium">Online • Natural Conversational Assistant</p>
+                  <h4 className="text-white font-bold text-sm tracking-tight">Haroon's Bot</h4>
+                  <p className="text-emerald-300 text-[10px] font-medium flex items-center gap-1.5">
+                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />
+                    Online
+                  </p>
                 </div>
               </div>
               
@@ -314,7 +327,7 @@ const Assistant = () => {
         whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
         onClick={() => setIsOpen(!isOpen)}
-        aria-label="Open AI Assistant"
+        aria-label="Open Chat Assistant"
         className="relative w-14 h-14 bg-gradient-to-tr from-indigo-700 via-indigo-600 to-indigo-500 text-white rounded-full flex items-center justify-center shadow-xl shadow-indigo-950/60 hover:shadow-indigo-600/40 transition-shadow border border-white/20"
       >
         {isOpen ? <X size={24} /> : <MessageCircle size={26} />}
