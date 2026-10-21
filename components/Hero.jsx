@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { ArrowRight, Terminal, Library, ChevronRight, ChevronLeft, Zap, Trophy, ShieldCheck, Users, ExternalLink } from 'lucide-react';
-import { projects } from './projectsData';
+import { projects } from '../services/projectsData';
 import { projectsService } from '../services/projectsService';
 
 const getProjectBookStyles = (proj) => {

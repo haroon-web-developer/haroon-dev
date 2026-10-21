@@ -92,3 +92,5 @@ export const projects = [
     order: 5
   }
 ];
+
+export default projects;
