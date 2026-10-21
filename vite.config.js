@@ -21,7 +21,19 @@ export default defineConfig(({ mode }) => {
           }
         },
       },
-      plugins: [react(), tailwindcss()],
+      plugins: [
+        react(),
+        tailwindcss(),
+        {
+          name: 'resolve-projects-data-fallback',
+          resolveId(source) {
+            if (source.endsWith('projectsData') || source.endsWith('projectsData.js')) {
+              return path.resolve(__dirname, 'services/projectsData.js');
+            }
+            return null;
+          }
+        }
+      ],
       define: {
         'process.env.API_KEY': JSON.stringify(env.GEMINI_API_KEY),
         'process.env.GEMINI_API_KEY': JSON.stringify(env.GEMINI_API_KEY)
